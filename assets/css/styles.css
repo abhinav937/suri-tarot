@@ -6,15 +6,15 @@
 }
 
 :root {
-    --primary-color: #d4a574;
-    --secondary-color: #8b6f47;
+    --primary-color: #D4AF37;
+    --secondary-color: #B8860B;
     --accent-color: #f5e6d3;
     --dark-color: #2c2416;
     --light-color: #faf8f5;
     --text-color: #333;
     --text-light: #666;
     --white: #ffffff;
-    --gradient: linear-gradient(135deg, #d4a574 0%, #8b6f47 100%);
+    --gradient: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%);
 }
 
 body {
@@ -54,6 +54,16 @@ body {
     font-size: 1.5rem;
     font-weight: 700;
     color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.nav-logo {
+    width: 45px;
+    height: 45px;
+    object-fit: contain;
+    border-radius: 8px;
 }
 
 .nav-menu {
@@ -127,14 +137,30 @@ body {
 
 /* Hero Section */
 .hero {
-    min-height: 100vh;
+    min-height: 85vh;
     display: flex;
     align-items: center;
     justify-content: center;
     background: var(--gradient);
+    background-image: url('../images/banner.jpg');
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: overlay;
     position: relative;
     padding-top: 80px;
     overflow: hidden;
+}
+
+.hero::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--gradient);
+    opacity: 0.85;
+    z-index: 0;
 }
 
 .hero::before {
@@ -145,15 +171,16 @@ body {
     right: 0;
     bottom: 0;
     background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.1)"/><circle cx="10" cy="50" r="0.5" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
-    opacity: 0.3;
+    opacity: 0.2;
+    z-index: 1;
 }
 
 .hero-content {
     text-align: center;
     color: var(--white);
-    z-index: 1;
+    z-index: 2;
     max-width: 900px;
-    padding: 3rem 2rem;
+    padding: 2rem 2rem;
     position: relative;
 }
 
@@ -181,9 +208,9 @@ body {
 
 .hero-title {
     font-family: 'Playfair Display', serif;
-    font-size: 3.5rem;
+    font-size: 3rem;
     font-weight: 700;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
     animation: fadeInUp 1s ease;
     position: relative;
@@ -191,8 +218,8 @@ body {
 }
 
 .hero-subtitle {
-    font-size: 1.6rem;
-    margin-bottom: 1.5rem;
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
     opacity: 0.95;
     font-weight: 500;
     letter-spacing: 0.5px;
@@ -200,8 +227,8 @@ body {
 }
 
 .hero-tagline {
-    font-size: 1.5rem;
-    margin-bottom: 1.5rem;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
     font-style: italic;
     opacity: 0.95;
     font-weight: 400;
@@ -209,10 +236,10 @@ body {
 }
 
 .hero-description {
-    font-size: 1.15rem;
-    margin-bottom: 1.5rem;
+    font-size: 1.05rem;
+    margin-bottom: 1rem;
     opacity: 0.9;
-    line-height: 1.7;
+    line-height: 1.6;
     max-width: 700px;
     margin-left: auto;
     margin-right: auto;
@@ -220,16 +247,16 @@ body {
 }
 
 .hero-call {
-    font-size: 1.3rem;
-    margin-bottom: 2rem;
+    font-size: 1.15rem;
+    margin-bottom: 1.5rem;
     font-weight: 600;
     opacity: 0.95;
     animation: fadeInUp 1s ease 0.5s both;
 }
 
 .hero-divider {
-    font-size: 1.8rem;
-    margin: 2rem 0;
+    font-size: 1.5rem;
+    margin: 1.5rem 0;
     opacity: 0.5;
     letter-spacing: 2px;
     animation: fadeInUp 1s ease 0.6s both;
@@ -292,18 +319,28 @@ body {
 
 /* Section Styles */
 section {
-    padding: 5rem 0;
+    padding: 3rem 0;
 }
 
 .section-title {
     font-family: 'Playfair Display', serif;
-    font-size: 2.8rem;
+    font-size: 2.5rem;
     text-align: center;
-    margin-bottom: 3.5rem;
+    margin-bottom: 2rem;
     color: var(--dark-color);
     position: relative;
-    padding-bottom: 1.5rem;
+    padding-bottom: 1rem;
     line-height: 1.3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+}
+
+.section-title-icon {
+    font-size: 2.2rem;
+    color: var(--primary-color);
+    vertical-align: middle;
 }
 
 .section-title::after {
@@ -326,8 +363,8 @@ section {
 .services-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 2.5rem;
-    margin-top: 3rem;
+    gap: 1.5rem;
+    margin-top: 2rem;
     max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
@@ -335,7 +372,7 @@ section {
 
 .service-card {
     background: var(--light-color);
-    padding: 3rem 2.5rem;
+    padding: 2rem 1.5rem;
     border-radius: 15px;
     text-align: left;
     transition: all 0.3s ease;
@@ -351,15 +388,23 @@ section {
 }
 
 .service-icon {
-    font-size: 3.5rem;
-    margin-bottom: 1.5rem;
+    font-size: 3rem;
+    margin-bottom: 1rem;
     text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.service-icon .material-icons {
+    font-size: 3rem;
+    color: var(--primary-color);
 }
 
 .service-card h3 {
     font-family: 'Playfair Display', serif;
-    font-size: 2rem;
-    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
     color: var(--dark-color);
     text-align: center;
     line-height: 1.3;
@@ -386,12 +431,12 @@ section {
 }
 
 .service-features li {
-    padding: 0.75rem 0;
+    padding: 0.5rem 0;
     padding-left: 1.8rem;
     position: relative;
     color: var(--text-color);
-    font-size: 1.05rem;
-    line-height: 1.6;
+    font-size: 1rem;
+    line-height: 1.5;
 }
 
 .service-features li::before {
@@ -405,27 +450,27 @@ section {
 
 .service-subtitle {
     font-weight: 600;
-    margin-top: 1.5rem;
-    margin-bottom: 0.75rem;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
     color: var(--dark-color);
-    font-size: 1.1rem;
+    font-size: 1rem;
 }
 
 .service-note {
-    margin-top: 1.5rem;
+    margin-top: 1rem;
     font-style: italic;
     color: var(--text-light);
-    font-size: 0.98rem;
-    line-height: 1.7;
-    padding-top: 1rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    padding-top: 0.75rem;
     border-top: 1px solid var(--accent-color);
 }
 
 .service-divider {
-    margin: 2rem 0 1rem 0;
+    margin: 1.5rem 0 0.75rem 0;
     text-align: center;
     opacity: 0.3;
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     letter-spacing: 1px;
 }
 
@@ -444,9 +489,9 @@ section {
 }
 
 .about-text p {
-    font-size: 1.15rem;
-    line-height: 1.9;
-    margin-bottom: 1.5rem;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    margin-bottom: 1rem;
     color: var(--text-color);
 }
 
@@ -456,9 +501,27 @@ section {
 }
 
 .about-intro {
-    margin-bottom: 3rem;
-    padding-bottom: 2rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
     border-bottom: 2px solid var(--primary-color);
+    text-align: center;
+}
+
+.about-profile-image {
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: center;
+}
+
+.profile-logo {
+    width: 180px;
+    height: 180px;
+    object-fit: contain;
+    border-radius: 50%;
+    border: 4px solid var(--primary-color);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    background: var(--white);
+    padding: 8px;
 }
 
 .about-name {
@@ -470,10 +533,10 @@ section {
 
 .about-subheading {
     font-family: 'Playfair Display', serif;
-    font-size: 1.6rem;
+    font-size: 1.4rem;
     color: var(--dark-color);
-    margin-top: 2.5rem;
-    margin-bottom: 1.5rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
     font-weight: 600;
     position: relative;
     padding-left: 1rem;
@@ -481,7 +544,7 @@ section {
 }
 
 .about-origin {
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
 }
 
 .about-emphasis {
@@ -535,8 +598,8 @@ section {
 }
 
 .about-craft {
-    margin-bottom: 3rem;
-    padding: 2rem;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
     background: var(--white);
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
@@ -549,12 +612,12 @@ section {
 }
 
 .about-specialties {
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
 }
 
 .about-philosophy-box {
-    margin-top: 3rem;
-    padding: 2.5rem;
+    margin-top: 2rem;
+    padding: 1.5rem;
     background: var(--white);
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
@@ -563,9 +626,9 @@ section {
 }
 
 .about-quote {
-    font-size: 1.4rem;
-    margin: 2rem 0;
-    padding: 1.5rem;
+    font-size: 1.3rem;
+    margin: 1.5rem 0;
+    padding: 1rem;
     background: var(--accent-color);
     border-radius: 8px;
     font-style: italic;
@@ -574,21 +637,21 @@ section {
 
 .specialties-list {
     list-style: none;
-    margin: 2rem 0;
+    margin: 1.5rem 0;
     padding-left: 0;
     background: var(--white);
-    padding: 2rem;
+    padding: 1.5rem;
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 }
 
 .specialties-list li {
-    padding: 0.75rem 0;
+    padding: 0.5rem 0;
     padding-left: 2rem;
     position: relative;
     color: var(--text-color);
-    font-size: 1.15rem;
-    line-height: 1.6;
+    font-size: 1.05rem;
+    line-height: 1.5;
 }
 
 .specialties-list li::before {
@@ -601,10 +664,10 @@ section {
 }
 
 .section-divider {
-    margin: 3rem 0;
+    margin: 2rem 0;
     text-align: center;
     opacity: 0.3;
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     letter-spacing: 2px;
 }
 
@@ -613,20 +676,251 @@ section {
     background: var(--white);
 }
 
-.pricing-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem;
-    margin-bottom: 3rem;
+.pricing-note {
+    background: var(--accent-color);
+    padding: 1.5rem;
+    border-radius: 15px;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    border-left: 4px solid var(--primary-color);
 }
+
+/* Pricing Tabs */
+.pricing-tabs {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid var(--accent-color);
+    padding-bottom: 1rem;
+}
+
+.pricing-tab {
+    background: transparent;
+    border: 2px solid var(--accent-color);
+    color: var(--text-color);
+    padding: 0.75rem 1.5rem;
+    border-radius: 25px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Poppins', sans-serif;
+}
+
+.pricing-tab:hover {
+    background: var(--accent-color);
+    border-color: var(--primary-color);
+    color: var(--dark-color);
+}
+
+.pricing-tab.active {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: var(--white);
+}
+
+.pricing-tab-content {
+    display: none;
+    animation: fadeIn 0.3s ease;
+}
+
+.pricing-tab-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Pricing Carousel */
+.pricing-carousel-wrapper {
+    position: relative;
+    margin: 2rem 0;
+    padding: 0 3rem;
+}
+
+.pricing-carousel {
+    display: flex;
+    gap: 1.25rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    padding: 1rem 0;
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary-color) var(--accent-color);
+    -webkit-overflow-scrolling: touch;
+}
+
+.pricing-carousel::-webkit-scrollbar {
+    height: 8px;
+}
+
+.pricing-carousel::-webkit-scrollbar-track {
+    background: var(--accent-color);
+    border-radius: 10px;
+}
+
+.pricing-carousel::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 10px;
+}
+
+.pricing-carousel::-webkit-scrollbar-thumb:hover {
+    background: var(--secondary-color);
+}
+
+.pricing-carousel .pricing-card {
+    flex: 0 0 280px;
+    min-width: 280px;
+    max-width: 280px;
+    scroll-snap-align: start;
+}
+
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--primary-color);
+    color: var(--white);
+    border: none;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    opacity: 0.9;
+    backdrop-filter: blur(5px);
+}
+
+.carousel-btn:hover {
+    background: var(--secondary-color);
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+}
+
+.carousel-btn:active {
+    transform: translateY(-50%) scale(0.95);
+}
+
+.carousel-btn-prev {
+    left: -10px;
+}
+
+.carousel-btn-next {
+    right: -10px;
+}
+
+.carousel-btn .material-icons {
+    font-size: 24px;
+}
+
+.pricing-category-note {
+    text-align: center;
+    font-style: italic;
+    color: var(--text-light);
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+    padding: 0 1rem;
+}
+
+.pricing-footer {
+    margin-top: 2.5rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    align-items: stretch;
+}
+
+@media (max-width: 768px) {
+    .pricing-footer {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+}
+
+.pricing-footer > * {
+    display: flex;
+    flex-direction: column;
+}
+
+.pricing-note-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    color: var(--dark-color);
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.pricing-note p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--text-color);
+    margin-bottom: 0.75rem;
+}
+
+.pricing-note p strong {
+    color: var(--dark-color);
+    font-weight: 600;
+}
+
+
+
+.pricing-cord-note {
+    background: var(--white);
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin: 1.5rem auto;
+    max-width: 800px;
+    text-align: center;
+    border-left: 4px solid var(--primary-color);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.pricing-cord-note p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--text-color);
+    margin-bottom: 0.75rem;
+}
+
+.pricing-cord-note p:last-child {
+    margin-bottom: 0;
+}
+
+.pricing-cord-note p strong {
+    color: var(--dark-color);
+    font-weight: 600;
+}
+
+.pricing-cord-note p em {
+    color: var(--text-light);
+    font-style: italic;
+}
+
 
 .pricing-card {
     background: var(--light-color);
-    padding: 2.5rem;
+    padding: 1.5rem;
     border-radius: 15px;
     text-align: center;
     border: 2px solid var(--accent-color);
     transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
 }
 
 .pricing-card:hover {
@@ -635,48 +929,124 @@ section {
     border-color: var(--primary-color);
 }
 
-.pricing-card h3 {
+.pricing-card h4 {
     font-family: 'Playfair Display', serif;
-    font-size: 1.8rem;
-    margin-bottom: 1rem;
+    font-size: 1.3rem;
+    margin-bottom: 0.75rem;
     color: var(--dark-color);
+    font-weight: 600;
 }
 
 .price {
-    font-size: 2rem;
+    font-size: 1.75rem;
     font-weight: 700;
     color: var(--primary-color);
-    margin-bottom: 1.5rem;
+    margin-bottom: 0.75rem;
 }
 
-.pricing-features {
-    list-style: none;
-    text-align: left;
-}
-
-.pricing-features li {
-    padding: 0.75rem 0;
-    border-bottom: 1px solid var(--accent-color);
+.pricing-description {
     color: var(--text-color);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 0.5rem;
+    flex-grow: 1;
 }
 
-.pricing-features li:last-child {
+.pricing-card-bundle {
+    border-color: var(--primary-color);
+    background: linear-gradient(135deg, var(--light-color) 0%, var(--accent-color) 100%);
+}
+
+.pricing-value {
+    color: var(--primary-color);
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-top: 0.5rem;
+}
+
+.pricing-important-notes {
+    background: var(--accent-color);
+    padding: 1.5rem;
+    border-radius: 15px;
+    border-left: 4px solid var(--primary-color);
+}
+
+.pricing-footer .pricing-important-notes {
+    margin-bottom: 0;
+    display: flex;
+    flex-direction: column;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+}
+
+.pricing-important-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    color: var(--dark-color);
+    margin: 0 0 1rem 0;
+    padding: 0;
+    text-align: center;
+    font-weight: 700;
+    letter-spacing: 1px;
+    line-height: 1.3;
+}
+
+.pricing-notes-list {
+    list-style: none;
+    padding: 0;
+    max-width: 100%;
+    margin: 0;
+    flex-grow: 1;
+}
+
+.pricing-notes-list li {
+    padding: 0.75rem 0;
+    padding-left: 2rem;
+    position: relative;
+    color: var(--text-color);
+    font-size: 1rem;
+    line-height: 1.6;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.pricing-notes-list li:last-child {
     border-bottom: none;
+}
+
+.pricing-notes-list li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--primary-color);
+    font-weight: bold;
+    font-size: 1.5rem;
 }
 
 .payment-info {
     text-align: center;
     background: var(--accent-color);
-    padding: 2.5rem;
+    padding: 1.5rem;
     border-radius: 15px;
-    margin-top: 2rem;
+}
+
+.pricing-footer .payment-info {
+    margin-top: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
 }
 
 .payment-info h3 {
     font-family: 'Playfair Display', serif;
-    font-size: 1.8rem;
-    margin-bottom: 1rem;
+    font-size: 1.6rem;
+    margin: 0 0 1rem 0;
+    padding: 0;
     color: var(--dark-color);
+    font-weight: 700;
+    letter-spacing: 1px;
+    line-height: 1.3;
 }
 
 .payment-info p {
@@ -702,9 +1072,10 @@ section {
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
 }
 
-.venmo-link span {
+.venmo-link .material-icons {
     margin-right: 0.5rem;
     font-size: 1.3rem;
+    vertical-align: middle;
 }
 
 .note {
@@ -750,7 +1121,7 @@ section {
 /* Philosophy Section */
 .philosophy {
     background: var(--accent-color);
-    padding: 5rem 0;
+    padding: 3rem 0;
 }
 
 .philosophy-content {
@@ -760,30 +1131,30 @@ section {
 }
 
 .philosophy-intro {
-    margin-bottom: 3rem;
-    padding: 2rem;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
     background: var(--white);
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 }
 
 .philosophy-statement {
-    font-size: 1.4rem;
+    font-size: 1.25rem;
     font-weight: 600;
     color: var(--dark-color);
-    margin-bottom: 1rem;
-    line-height: 1.6;
+    margin-bottom: 0.75rem;
+    line-height: 1.5;
 }
 
 .philosophy-what-it-is {
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
 }
 
 .philosophy-subheading {
     font-family: 'Playfair Display', serif;
-    font-size: 1.6rem;
+    font-size: 1.4rem;
     color: var(--dark-color);
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
     font-weight: 600;
     text-align: center;
 }
@@ -791,19 +1162,19 @@ section {
 .philosophy-principles {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1.5rem;
-    margin: 2rem 0;
+    gap: 1rem;
+    margin: 1.5rem 0;
 }
 
 .principle-item {
     background: var(--white);
-    padding: 2rem 1.5rem;
+    padding: 1.5rem 1rem;
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1rem;
+    gap: 0.75rem;
     transition: all 0.3s ease;
     border: 2px solid transparent;
 }
@@ -815,19 +1186,27 @@ section {
 }
 
 .principle-icon {
-    font-size: 2.5rem;
+    font-size: 2.2rem;
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.principle-icon.material-icons {
+    font-size: 2.2rem;
 }
 
 .principle-text {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: 600;
     color: var(--dark-color);
     text-align: center;
 }
 
 .philosophy-core {
-    margin: 3rem 0;
-    padding: 2.5rem;
+    margin: 2rem 0;
+    padding: 1.5rem;
     background: var(--white);
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
@@ -835,29 +1214,29 @@ section {
 }
 
 .philosophy-quote {
-    font-size: 1.5rem;
-    margin-bottom: 1.5rem;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
     color: var(--dark-color);
     font-style: italic;
-    padding: 1.5rem;
+    padding: 1rem;
     background: var(--accent-color);
     border-radius: 8px;
 }
 
 .philosophy-core p {
-    font-size: 1.15rem;
-    line-height: 1.9;
+    font-size: 1.05rem;
+    line-height: 1.7;
     color: var(--text-color);
     margin-bottom: 0;
 }
 
 .philosophy-approach {
-    margin: 3rem 0;
+    margin: 2rem 0;
 }
 
 .approach-box {
     background: var(--white);
-    padding: 2rem;
+    padding: 1.5rem;
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
     text-align: left;
@@ -866,10 +1245,10 @@ section {
 }
 
 .approach-box p {
-    font-size: 1.15rem;
-    line-height: 1.9;
+    font-size: 1.05rem;
+    line-height: 1.7;
     color: var(--text-color);
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
 }
 
 .approach-box p:last-child {
@@ -877,15 +1256,15 @@ section {
 }
 
 .philosophy-final {
-    margin-top: 3rem;
-    padding: 2rem;
+    margin-top: 2rem;
+    padding: 1.5rem;
     background: var(--white);
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 }
 
 .philosophy-emphasis {
-    font-size: 1.4rem;
+    font-size: 1.25rem;
     color: var(--dark-color);
     font-weight: 600;
     text-align: center;
@@ -895,7 +1274,7 @@ section {
 /* Disclaimer Section */
 .disclaimer {
     background: var(--accent-color);
-    padding: 4rem 0;
+    padding: 3rem 0;
 }
 
 .disclaimer-content {
@@ -903,7 +1282,7 @@ section {
     margin: 0 auto;
     text-align: center;
     background: var(--white);
-    padding: 2.5rem;
+    padding: 1.5rem;
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 }
@@ -1005,14 +1384,14 @@ section {
 .footer {
     background: var(--dark-color);
     color: var(--white);
-    padding: 4rem 0 2rem 0;
+    padding: 3rem 0 1.5rem 0;
 }
 
 .footer-content {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 3rem;
-    margin-bottom: 3rem;
+    gap: 2rem;
+    margin-bottom: 2rem;
 }
 
 /* Mobile Minimal Footer */
@@ -1061,11 +1440,25 @@ section {
     text-align: left;
 }
 
+.footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.footer-logo {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
 .footer-title {
     font-family: 'Playfair Display', serif;
     font-size: 1.8rem;
     color: var(--primary-color);
-    margin-bottom: 1rem;
+    margin-bottom: 0;
     font-weight: 700;
 }
 
@@ -1156,7 +1549,7 @@ section {
     font-size: 1.1rem;
     font-weight: 500;
     padding: 0.75rem 1.5rem;
-    background: rgba(212, 165, 116, 0.1);
+    background: rgba(212, 175, 55, 0.1);
     border: 2px solid var(--primary-color);
     border-radius: 25px;
     transition: all 0.3s ease;
@@ -1166,10 +1559,17 @@ section {
     background: var(--primary-color);
     color: var(--dark-color);
     transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(212, 165, 116, 0.3);
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
 }
 
 .footer-icon {
+    font-size: 1.3rem;
+    display: inline-flex;
+    align-items: center;
+    vertical-align: middle;
+}
+
+.footer-icon.material-icons {
     font-size: 1.3rem;
 }
 
@@ -1182,7 +1582,7 @@ section {
 
 .footer-divider {
     height: 1px;
-    background: linear-gradient(to right, transparent, rgba(212, 165, 116, 0.3), transparent);
+    background: linear-gradient(to right, transparent, rgba(212, 175, 55, 0.3), transparent);
     margin: 2rem 0;
 }
 
@@ -1249,6 +1649,15 @@ section {
         background: var(--text-color);
     }
 
+    .nav-brand {
+        font-size: 1.2rem;
+    }
+
+    .nav-logo {
+        width: 35px;
+        height: 35px;
+    }
+
     .hero-logo {
         max-width: 150px;
     }
@@ -1277,6 +1686,10 @@ section {
         font-size: 2.2rem;
     }
 
+    .section-title-icon {
+        font-size: 2rem;
+    }
+
     .services-grid {
         grid-template-columns: 1fr;
         gap: 2rem;
@@ -1286,9 +1699,76 @@ section {
         padding: 2rem 1.5rem;
     }
 
-    .services-grid,
-    .pricing-grid {
+    .services-grid {
         grid-template-columns: 1fr;
+    }
+
+    .pricing-note {
+        padding: 2rem 1.5rem;
+    }
+
+    .pricing-note-title {
+        font-size: 1.4rem;
+    }
+
+    .pricing-category-title {
+        font-size: 1.6rem;
+    }
+
+    .pricing-card {
+        padding: 1.5rem;
+        flex: 0 0 260px;
+        min-width: 260px;
+        max-width: 260px;
+    }
+
+    .pricing-card h4 {
+        font-size: 1.3rem;
+    }
+
+    .price {
+        font-size: 1.8rem;
+    }
+
+    .pricing-carousel-wrapper {
+        margin: 1.5rem 0;
+        padding: 0 2.5rem;
+    }
+
+    .carousel-btn-prev {
+        left: 5px;
+    }
+    
+    .carousel-btn-next {
+        right: 5px;
+    }
+
+    .pricing-tabs {
+        gap: 0.5rem;
+        padding-bottom: 0.75rem;
+    }
+
+    .pricing-tab {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.9rem;
+    }
+
+
+    .pricing-important-notes {
+        padding: 2rem 1.5rem;
+    }
+
+    .pricing-important-title {
+        font-size: 1.5rem;
+    }
+
+    .pricing-cord-note {
+        padding: 1.5rem;
+        margin: 1.5rem auto;
+    }
+
+    .pricing-cord-note p {
+        font-size: 1rem;
     }
 
     .hero-buttons {
@@ -1375,9 +1855,42 @@ section {
         font-size: 1.8rem;
     }
 
-    .service-card,
-    .pricing-card {
+    .section-title-icon {
+        font-size: 1.6rem;
+    }
+
+    .service-card {
         padding: 1.5rem;
+    }
+
+    .pricing-card {
+        padding: 1.25rem;
+        flex: 0 0 240px;
+        min-width: 240px;
+        max-width: 240px;
+    }
+
+    .pricing-carousel-wrapper {
+        padding: 0 1rem;
+    }
+
+    .carousel-btn {
+        width: 35px;
+        height: 35px;
+        display: none; /* Hide buttons on very small screens, use touch scrolling instead */
+    }
+
+    .carousel-btn .material-icons {
+        font-size: 20px;
+    }
+
+    .pricing-tabs {
+        gap: 0.4rem;
+    }
+
+    .pricing-tab {
+        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
     }
 
     .service-card h3 {
@@ -1431,6 +1944,20 @@ section {
 
     .about-name {
         font-size: 1.2rem;
+    }
+
+    .profile-logo {
+        width: 150px;
+        height: 150px;
+    }
+
+    .footer-logo {
+        width: 50px;
+        height: 50px;
+    }
+
+    .footer-title {
+        font-size: 1.5rem;
     }
 
     .about-emphasis {

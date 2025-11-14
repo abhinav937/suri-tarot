@@ -85,6 +85,121 @@ const venmoProfileUrl = 'https://www.venmo.com/u/suri_tarot';
 
 document.getElementById('venmo-link').href = venmoProfileUrl;
 
+// Pricing Tabs Functionality
+const pricingTabs = document.querySelectorAll('.pricing-tab');
+const pricingTabContents = document.querySelectorAll('.pricing-tab-content');
+
+if (pricingTabs.length > 0 && pricingTabContents.length > 0) {
+    pricingTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const targetTab = tab.getAttribute('data-tab');
+            
+            // Remove active class from all tabs and contents
+            pricingTabs.forEach(t => t.classList.remove('active'));
+            pricingTabContents.forEach(content => content.classList.remove('active'));
+            
+            // Add active class to clicked tab and corresponding content
+            tab.classList.add('active');
+            document.getElementById(targetTab).classList.add('active');
+            
+            // Reset carousel scroll position when switching tabs
+            const carousel = document.getElementById(targetTab).querySelector('.pricing-carousel');
+            if (carousel) {
+                carousel.scrollLeft = 0;
+            }
+        });
+    });
+}
+
+// Pricing Carousel Navigation
+document.querySelectorAll('.pricing-carousel-wrapper').forEach(wrapper => {
+    const carousel = wrapper.querySelector('.pricing-carousel');
+    const prevBtn = wrapper.querySelector('.carousel-btn-prev');
+    const nextBtn = wrapper.querySelector('.carousel-btn-next');
+    
+    if (carousel && prevBtn && nextBtn) {
+        const gap = 20; // Gap between cards (1.25rem = 20px)
+        
+        const getScrollAmount = () => {
+            const cardWidth = carousel.querySelector('.pricing-card').offsetWidth;
+            return cardWidth + gap;
+        };
+        
+        // Previous button
+        prevBtn.addEventListener('click', () => {
+            carousel.scrollBy({
+                left: -getScrollAmount(),
+                behavior: 'smooth'
+            });
+        });
+        
+        // Next button
+        nextBtn.addEventListener('click', () => {
+            carousel.scrollBy({
+                left: getScrollAmount(),
+                behavior: 'smooth'
+            });
+        });
+        
+        // Show/hide navigation buttons based on scroll position
+        const updateButtonVisibility = () => {
+            const isAtStart = carousel.scrollLeft <= 10;
+            const isAtEnd = carousel.scrollLeft >= carousel.scrollWidth - carousel.clientWidth - 10;
+            
+            prevBtn.style.opacity = isAtStart ? '0.3' : '0.9';
+            prevBtn.style.pointerEvents = isAtStart ? 'none' : 'auto';
+            
+            nextBtn.style.opacity = isAtEnd ? '0.3' : '0.9';
+            nextBtn.style.pointerEvents = isAtEnd ? 'none' : 'auto';
+        };
+        
+        // Update on scroll
+        carousel.addEventListener('scroll', updateButtonVisibility);
+        
+        // Initial check
+        updateButtonVisibility();
+        
+        // Update on window resize
+        window.addEventListener('resize', updateButtonVisibility);
+    }
+});
+
+// Touch/swipe support for carousel on mobile
+let touchStartX = 0;
+let touchEndX = 0;
+
+document.querySelectorAll('.pricing-carousel').forEach(carousel => {
+    carousel.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+    
+    carousel.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe(carousel);
+    }, { passive: true });
+});
+
+function handleSwipe(carousel) {
+    const swipeThreshold = 50;
+    const diff = touchStartX - touchEndX;
+    
+    if (Math.abs(diff) > swipeThreshold) {
+        if (diff > 0) {
+            // Swipe left - scroll right
+            carousel.scrollBy({
+                left: 300,
+                behavior: 'smooth'
+            });
+        } else {
+            // Swipe right - scroll left
+            carousel.scrollBy({
+                left: -300,
+                behavior: 'smooth'
+            });
+        }
+    }
+}
+
 // Calendly integration note
 // To set up Calendly:
 // 1. Go to https://calendly.com and create a free account
