@@ -62,8 +62,9 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="assets/images/logo-favicon.png">
+    <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
     
     <!-- Stylesheets -->
     <link rel="stylesheet" href="assets/css/styles.css">
@@ -264,11 +265,19 @@
     <!-- Hero Section -->
     <section id="home" class="hero" itemscope itemtype="https://schema.org/Person">
         <div class="hero-content">
-            <h1 class="hero-title" itemprop="name">Šuri - Balkan Witch & Tarot</h1>
-            <p class="hero-subtitle" itemprop="description">Discover your path through tarot reading. Gain insights and clarity for love, career, and personal growth.</p>
+            <div class="hero-logo-container">
+                <img src="assets/images/logo.png" alt="Šuri Divination Logo" class="hero-logo">
+            </div>
+            <h1 class="hero-title" itemprop="name">Welcome to Šuri Divination</h1>
+            <p class="hero-subtitle" itemprop="description">Tarot • Coffee Readings • Balkan Ritual Work</p>
+            <p class="hero-tagline">Old-world magic, reimagined for today.</p>
+            <p class="hero-description">Rooted in Balkan tradition, guided by intuition, and delivered with truth — not aesthetic.</p>
+            <p class="hero-call">If you're here, you were meant to be.</p>
+            <div class="hero-divider">⸻</div>
             <div class="hero-buttons">
-                <a href="#scheduling" class="btn btn-primary">Book Appointment</a>
-                <a href="#services" class="btn btn-secondary">Learn More</a>
+                <a href="#scheduling" class="btn btn-primary">Book a reading</a>
+                <a href="#services" class="btn btn-secondary">Explore the craft</a>
+                <a href="#about" class="btn btn-secondary">Begin your road-opening</a>
             </div>
         </div>
         <div class="hero-decoration"></div>
@@ -277,18 +286,59 @@
     <!-- Services Section -->
     <section id="services" class="services" itemscope itemtype="https://schema.org/Service">
         <div class="container">
-            <h2 class="section-title">Our Services</h2>
+            <h2 class="section-title">🔮 Services</h2>
             <div class="services-grid">
                 <div class="service-card">
-                    <div class="service-icon" aria-label="Tarot crystal ball icon">🔮</div>
-                    <h3>Tarot Reading</h3>
-                    <p>Gain insights into your life's journey with personalized tarot card readings. Discover guidance for love, career, and personal growth.</p>
+                    <div class="service-icon" aria-label="Tarot cards icon">🔮</div>
+                    <h3>Tarot Readings</h3>
+                    <p>Straightforward, intuitive, brutally honest when needed.</p>
+                    <p class="service-subtitle">Available for:</p>
                     <ul class="service-features">
-                        <li>Quick Pull Readings</li>
-                        <li>Love & Relationships</li>
-                        <li>Career Guidance</li>
-                        <li>Personal Growth & Clarity</li>
+                        <li>Career + purpose</li>
+                        <li>Love + connections</li>
+                        <li>Path clarity</li>
+                        <li>Decisions + crossroads</li>
+                        <li>Shadow insight</li>
                     </ul>
+                    <p class="service-note">Each reading is intuitive and deeply personal — no scripts, no shortcuts.</p>
+                    <div class="service-divider">⸻</div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon" aria-label="Coffee cup icon">☕</div>
+                    <h3>Coffee Cup Readings (Tasseography)</h3>
+                    <p>Old Balkan method.</p>
+                    <p>One turn clockwise, three taps, and the truth rises in the cup.</p>
+                    <p class="service-subtitle">Coffee readings show:</p>
+                    <ul class="service-features">
+                        <li>Energy flow</li>
+                        <li>Emotional direction</li>
+                        <li>Who is moving toward you</li>
+                        <li>What is leaving</li>
+                        <li>What is hidden</li>
+                    </ul>
+                    <p class="service-note">Every cup tells a different story, and I read it the way Mamaie taught — with respect.</p>
+                    <div class="service-divider">⸻</div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon" aria-label="Ritual magic icon">🔥</div>
+                    <h3>Ritual Work</h3>
+                    <p>This is not aesthetic magic.</p>
+                    <p>This is old-world Balkan craft — done with intention, discipline, and respect.</p>
+                    <p class="service-subtitle">Available forms of ritual work:</p>
+                    <ul class="service-features">
+                        <li>Road openers</li>
+                        <li>Career + opportunity magic</li>
+                        <li>Protection & warding</li>
+                        <li>Block removals</li>
+                        <li>Uncrossing</li>
+                        <li>Mental clarity & emotional relief work</li>
+                        <li>Sleep spells & peacework</li>
+                        <li>Attraction & love spellwork</li>
+                        <li>Cursing / baneful work (case-by-case, only after a reading)</li>
+                    </ul>
+                    <p class="service-note"><strong>Every ritual is custom-built after a reading to confirm alignment.</strong></p>
+                    <p class="service-note">I do not perform spells blindly or without energetic permission.</p>
+                    <p class="service-note">Magic is an exchange. Nothing in the universe is free.</p>
                 </div>
             </div>
         </div>
@@ -299,10 +349,56 @@
         <div class="container">
             <div class="about-content">
                 <div class="about-text">
-                    <h2 class="section-title">About Šuri</h2>
-                    <p>Welcome! I'm passionate about helping you discover clarity and meaning through the wisdom of tarot.</p>
-                    <p>With years of experience providing insightful tarot readings, I'm dedicated to making your experience memorable and meaningful.</p>
-                    <p>Whether you're seeking guidance for love, career, or personal growth, I'm here to help you find clarity and navigate your life's journey.</p>
+                    <h2 class="section-title">🔥 About Me — "Who I Am"</h2>
+                    
+                    <div class="about-intro">
+                        <p class="about-name">My name is <strong>Šuri</strong>, a name that carries the old fire — I'll let you guess its meaning.</p>
+                    </div>
+
+                    <div class="about-origin">
+                        <h3 class="about-subheading">Where I Come From</h3>
+                        <p>I come from the Balkans, where witchcraft wasn't pretty jars or trending sounds.</p>
+                        <p class="about-emphasis"><strong>It was survival.</strong></p>
+                        <p>It was what women used when they had nothing else.</p>
+                        <div class="about-elements">
+                            <span class="element-item">Salt</span>
+                            <span class="element-item">Bread</span>
+                            <span class="element-item">Thread</span>
+                            <span class="element-item">Breath</span>
+                        </div>
+                        <div class="about-outcomes">
+                            <span class="outcome-item">Protection</span>
+                            <span class="outcome-item">Healing</span>
+                            <span class="outcome-item">Clarity</span>
+                        </div>
+                    </div>
+
+                    <div class="about-craft">
+                        <h3 class="about-subheading">How I Learned</h3>
+                        <p>My craft was taught the Balkan way — through women who whispered, not women who posted.</p>
+                        <p>I still speak in the language of symbols: <em>cards, coffee grounds, smoke, intuition</em>.</p>
+                        <p>And yes… I'm still learning how to explain everything in English, but the magic translates.</p>
+                    </div>
+
+                    <div class="about-specialties">
+                        <h3 class="about-subheading">What I Offer</h3>
+                        <p>People come to me for many things, but my specialties are:</p>
+                        <ul class="specialties-list">
+                            <li>Career tarot readings</li>
+                            <li>Road opener spells</li>
+                            <li>Coffee cup divination</li>
+                            <li>Protection work</li>
+                            <li>Energetic clearing + guidance</li>
+                        </ul>
+                    </div>
+
+                    <div class="about-philosophy-box">
+                        <p>I do love readings too (who doesn't), but I'll always believe in securing your path and purpose first.</p>
+                        <p class="about-quote"><strong>"A stable life is the strongest spell."</strong></p>
+                        <p>My craft is not entertainment — it's an exchange of energy, devotion, and truth.</p>
+                    </div>
+
+                    <div class="section-divider">⸻</div>
                 </div>
             </div>
         </div>
@@ -330,6 +426,72 @@
                 <a href="https://www.venmo.com/u/suri_tarot" target="_blank" rel="noopener noreferrer" class="venmo-link" id="venmo-link" aria-label="Pay with Venmo - @suri_tarot">
                     <span aria-hidden="true">💳</span> Pay with Venmo
                 </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Philosophy Section -->
+    <section id="philosophy" class="philosophy">
+        <div class="container">
+            <div class="philosophy-content">
+                <h2 class="section-title">🧿 My Philosophy</h2>
+                
+                <div class="philosophy-intro">
+                    <p class="philosophy-statement">Witchcraft is not aesthetic.</p>
+                    <p class="philosophy-statement">It's not cute.</p>
+                    <p class="philosophy-statement">It's not content.</p>
+                </div>
+
+                <div class="philosophy-what-it-is">
+                    <h3 class="philosophy-subheading">It is:</h3>
+                    <div class="philosophy-principles">
+                        <div class="principle-item">
+                            <span class="principle-icon">✨</span>
+                            <span class="principle-text">Intention</span>
+                        </div>
+                        <div class="principle-item">
+                            <span class="principle-icon">⚖️</span>
+                            <span class="principle-text">Responsibility</span>
+                        </div>
+                        <div class="principle-item">
+                            <span class="principle-icon">🌳</span>
+                            <span class="principle-text">Ancestral memory</span>
+                        </div>
+                        <div class="principle-item">
+                            <span class="principle-icon">⚡</span>
+                            <span class="principle-text">Energy exchange</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="philosophy-core">
+                    <p class="philosophy-quote"><strong>"Nothing in the universe is free."</strong></p>
+                    <p>Every spell asks for respect — and an offering of your effort, your clarity, your discipline.</p>
+                </div>
+
+                <div class="philosophy-approach">
+                    <h3 class="philosophy-subheading">My Approach</h3>
+                    <div class="approach-box">
+                        <p>I don't do "quick spells" or "instant manifestations."</p>
+                        <p>I work in alignment with you and with the unseen.</p>
+                    </div>
+                </div>
+
+                <div class="philosophy-final">
+                    <p class="philosophy-emphasis"><strong>This craft is serious — and I treat it as such.</strong></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Disclaimer Section -->
+    <section id="disclaimer" class="disclaimer">
+        <div class="container">
+            <div class="disclaimer-content">
+                <h2 class="section-title">⚠ Disclaimer</h2>
+                <p class="disclaimer-text">All readings and ritual work are for insight, guidance, and entertainment purposes only.</p>
+                <p class="disclaimer-text">I do not diagnose, predict dates of death, or replace medical, legal, or financial professionals.</p>
+                <p class="disclaimer-text"><strong>By booking, you agree that you are 18+ and understand the nature of divination.</strong></p>
             </div>
         </div>
     </section>
