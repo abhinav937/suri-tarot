@@ -26,36 +26,117 @@ if (navToggle && navMenu) {
     });
 }
 
-// Smooth Scrolling
+// Enhanced Smooth Scrolling for all anchor links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
+        const href = this.getAttribute('href');
+        
+        // Skip if it's just "#"
+        if (href === '#' || href === '#!') {
+            return;
+        }
+        
+        const target = document.querySelector(href);
         if (target) {
-            const offsetTop = target.offsetTop - 80;
-            window.scrollTo({
-                top: offsetTop,
-                behavior: 'smooth'
-            });
+            e.preventDefault();
+            
+            // Get navbar height for offset
+            const navbar = document.querySelector('.navbar');
+            const navbarHeight = navbar ? navbar.offsetHeight : 80;
+            
+            // Calculate target position
+            const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - navbarHeight;
+            
+            // Smooth scroll with fallback
+            if ('scrollBehavior' in document.documentElement.style) {
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+            } else {
+                // Fallback for older browsers
+                smoothScrollFallback(targetPosition);
+            }
+            
+            // Update URL without jumping (optional)
+            if (history.pushState) {
+                history.pushState(null, null, href);
+            }
         }
     });
 });
 
-// Navbar scroll effect
+// Fallback smooth scroll function for older browsers
+function smoothScrollFallback(targetPosition) {
+    const startPosition = window.pageYOffset;
+    const distance = targetPosition - startPosition;
+    const duration = 800; // milliseconds
+    let start = null;
+    
+    function animation(currentTime) {
+        if (start === null) start = currentTime;
+        const timeElapsed = currentTime - start;
+        const run = easeInOutCubic(timeElapsed, startPosition, distance, duration);
+        window.scrollTo(0, run);
+        if (timeElapsed < duration) {
+            requestAnimationFrame(animation);
+        }
+    }
+    
+    function easeInOutCubic(t, b, c, d) {
+        t /= d / 2;
+        if (t < 1) return c / 2 * t * t * t + b;
+        t -= 2;
+        return c / 2 * (t * t * t + 2) + b;
+    }
+    
+    requestAnimationFrame(animation);
+}
+
+// Smooth scroll on page load if there's a hash in the URL
+window.addEventListener('load', () => {
+    if (window.location.hash) {
+        const target = document.querySelector(window.location.hash);
+        if (target) {
+            const navbar = document.querySelector('.navbar');
+            const navbarHeight = navbar ? navbar.offsetHeight : 80;
+            const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - navbarHeight;
+            
+            setTimeout(() => {
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+            }, 100);
+        }
+    }
+});
+
+// Navbar scroll effect with smooth transitions
 let lastScroll = 0;
 const navbar = document.querySelector('.navbar');
 
-window.addEventListener('scroll', () => {
-    const currentScroll = window.pageYOffset;
+if (navbar) {
+    // Add smooth transition to navbar
+    navbar.style.transition = 'box-shadow 0.3s ease, background 0.3s ease';
     
-    if (currentScroll > 100) {
-        navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.15)';
-    } else {
-        navbar.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
-    }
-    
-    lastScroll = currentScroll;
-});
+    // Throttled scroll handler for better performance
+    let scrollTimeout;
+    window.addEventListener('scroll', () => {
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+            const currentScroll = window.pageYOffset;
+            
+            if (currentScroll > 100) {
+                navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.15)';
+            } else {
+                navbar.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+            }
+            
+            lastScroll = currentScroll;
+        }, 10);
+    }, { passive: true });
+}
 
 // Intersection Observer for fade-in animations
 const observerOptions = {
@@ -118,87 +199,179 @@ document.querySelectorAll('.pricing-carousel-wrapper').forEach(wrapper => {
     const nextBtn = wrapper.querySelector('.carousel-btn-next');
     
     if (carousel && prevBtn && nextBtn) {
-        const gap = 20; // Gap between cards (1.25rem = 20px)
-        
+        // Get scroll amount based on card width
         const getScrollAmount = () => {
-            const cardWidth = carousel.querySelector('.pricing-card').offsetWidth;
+            const firstCard = carousel.querySelector('.pricing-card');
+            if (!firstCard) return 0;
+            
+            const cardWidth = firstCard.offsetWidth;
+            const cardStyle = window.getComputedStyle(firstCard);
+            const marginRight = parseInt(cardStyle.marginRight) || 0;
+            const gap = parseFloat(window.getComputedStyle(carousel).gap) || 20;
+            
+            // Scroll one card width plus gap for smooth snapping
             return cardWidth + gap;
         };
         
-        // Previous button
-        prevBtn.addEventListener('click', () => {
-            carousel.scrollBy({
-                left: -getScrollAmount(),
+        // Smooth scroll to next/previous card
+        const scrollToCard = (direction) => {
+            const scrollAmount = getScrollAmount();
+            const currentScroll = carousel.scrollLeft;
+            const cardWidth = getScrollAmount();
+            
+            // Calculate target scroll position
+            let targetScroll;
+            if (direction === 'next') {
+                targetScroll = currentScroll + cardWidth;
+            } else {
+                targetScroll = currentScroll - cardWidth;
+            }
+            
+            // Use smooth scroll
+            carousel.scrollTo({
+                left: targetScroll,
                 behavior: 'smooth'
             });
+        };
+        
+        // Previous button
+        prevBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            scrollToCard('prev');
         });
         
         // Next button
-        nextBtn.addEventListener('click', () => {
-            carousel.scrollBy({
-                left: getScrollAmount(),
-                behavior: 'smooth'
-            });
+        nextBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            scrollToCard('next');
         });
+        
+        // Touch-friendly button handling for mobile
+        prevBtn.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            scrollToCard('prev');
+        }, { passive: false });
+        
+        nextBtn.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            scrollToCard('next');
+        }, { passive: false });
         
         // Show/hide navigation buttons based on scroll position
         const updateButtonVisibility = () => {
-            const isAtStart = carousel.scrollLeft <= 10;
-            const isAtEnd = carousel.scrollLeft >= carousel.scrollWidth - carousel.clientWidth - 10;
+            const scrollLeft = carousel.scrollLeft;
+            const scrollWidth = carousel.scrollWidth;
+            const clientWidth = carousel.clientWidth;
+            const threshold = 5; // Small threshold for edge detection
             
-            prevBtn.style.opacity = isAtStart ? '0.3' : '0.9';
-            prevBtn.style.pointerEvents = isAtStart ? 'none' : 'auto';
+            const isAtStart = scrollLeft <= threshold;
+            const isAtEnd = scrollLeft >= scrollWidth - clientWidth - threshold;
             
-            nextBtn.style.opacity = isAtEnd ? '0.3' : '0.9';
-            nextBtn.style.pointerEvents = isAtEnd ? 'none' : 'auto';
+            // Update previous button
+            if (isAtStart) {
+                prevBtn.style.opacity = '0.4';
+                prevBtn.style.pointerEvents = 'none';
+                prevBtn.setAttribute('disabled', 'true');
+                prevBtn.setAttribute('aria-disabled', 'true');
+            } else {
+                prevBtn.style.opacity = '0.95';
+                prevBtn.style.pointerEvents = 'auto';
+                prevBtn.removeAttribute('disabled');
+                prevBtn.setAttribute('aria-disabled', 'false');
+            }
+            
+            // Update next button
+            if (isAtEnd) {
+                nextBtn.style.opacity = '0.4';
+                nextBtn.style.pointerEvents = 'none';
+                nextBtn.setAttribute('disabled', 'true');
+                nextBtn.setAttribute('aria-disabled', 'true');
+            } else {
+                nextBtn.style.opacity = '0.95';
+                nextBtn.style.pointerEvents = 'auto';
+                nextBtn.removeAttribute('disabled');
+                nextBtn.setAttribute('aria-disabled', 'false');
+            }
+        };
+        
+        // Throttled scroll handler for better performance
+        let scrollTimeout;
+        const handleScroll = () => {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(updateButtonVisibility, 50);
         };
         
         // Update on scroll
-        carousel.addEventListener('scroll', updateButtonVisibility);
+        carousel.addEventListener('scroll', handleScroll, { passive: true });
+        
+        // Update on resize
+        let resizeTimeout;
+        const handleResize = () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                updateButtonVisibility();
+            }, 250);
+        };
+        
+        window.addEventListener('resize', handleResize, { passive: true });
         
         // Initial check
         updateButtonVisibility();
         
-        // Update on window resize
-        window.addEventListener('resize', updateButtonVisibility);
+        // Update after images load (if any)
+        carousel.addEventListener('load', updateButtonVisibility, true);
+        
+        // Update when carousel becomes visible
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    updateButtonVisibility();
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        observer.observe(carousel);
     }
 });
 
-// Touch/swipe support for carousel on mobile
-let touchStartX = 0;
-let touchEndX = 0;
-
+// Enhanced touch/swipe support for carousel on mobile
+// Native scroll with momentum works better with scroll-snap, so we keep it minimal
 document.querySelectorAll('.pricing-carousel').forEach(carousel => {
-    carousel.addEventListener('touchstart', (e) => {
-        touchStartX = e.changedTouches[0].screenX;
-    }, { passive: true });
+    // Prevent button clicks from interfering with scroll
+    const buttons = carousel.closest('.pricing-carousel-wrapper')?.querySelectorAll('.carousel-btn');
     
-    carousel.addEventListener('touchend', (e) => {
-        touchEndX = e.changedTouches[0].screenX;
-        handleSwipe(carousel);
+    if (buttons) {
+        buttons.forEach(btn => {
+            btn.addEventListener('touchstart', (e) => {
+                // Allow button touch but prevent scroll interference
+                e.stopPropagation();
+            }, { passive: true });
+        });
+    }
+    
+    // Ensure smooth scrolling on touch devices
+    carousel.style.touchAction = 'pan-x';
+    carousel.style.WebkitOverflowScrolling = 'touch';
+    
+    // Add momentum scrolling enhancement
+    let isScrolling = false;
+    let scrollTimer;
+    
+    carousel.addEventListener('scroll', () => {
+        if (!isScrolling) {
+            isScrolling = true;
+        }
+        
+        clearTimeout(scrollTimer);
+        scrollTimer = setTimeout(() => {
+            isScrolling = false;
+        }, 150);
     }, { passive: true });
 });
-
-function handleSwipe(carousel) {
-    const swipeThreshold = 50;
-    const diff = touchStartX - touchEndX;
-    
-    if (Math.abs(diff) > swipeThreshold) {
-        if (diff > 0) {
-            // Swipe left - scroll right
-            carousel.scrollBy({
-                left: 300,
-                behavior: 'smooth'
-            });
-        } else {
-            // Swipe right - scroll left
-            carousel.scrollBy({
-                left: -300,
-                behavior: 'smooth'
-            });
-        }
-    }
-}
 
 // Calendly integration note
 // To set up Calendly:

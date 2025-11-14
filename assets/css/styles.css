@@ -5,6 +5,27 @@
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Respect user preferences for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+    
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
 :root {
     --primary-color: #D4AF37;
     --secondary-color: #B8860B;
@@ -23,6 +44,9 @@ body {
     line-height: 1.6;
     background-color: var(--light-color);
     overflow-x: hidden;
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 .container {
@@ -758,6 +782,11 @@ section {
     scrollbar-width: thin;
     scrollbar-color: var(--primary-color) var(--accent-color);
     -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    scroll-padding: 0 1rem;
+    overscroll-behavior-x: contain;
+    touch-action: pan-x;
+    will-change: scroll-position;
 }
 
 .pricing-carousel::-webkit-scrollbar {
@@ -783,6 +812,7 @@ section {
     min-width: 280px;
     max-width: 280px;
     scroll-snap-align: start;
+    scroll-snap-stop: always;
 }
 
 .carousel-btn {
@@ -804,6 +834,8 @@ section {
     transition: all 0.3s ease;
     opacity: 0.9;
     backdrop-filter: blur(5px);
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .carousel-btn:hover {
@@ -816,12 +848,78 @@ section {
     transform: translateY(-50%) scale(0.95);
 }
 
+.carousel-btn:disabled,
+.carousel-btn[aria-disabled="true"] {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.carousel-btn:disabled:hover,
+.carousel-btn[aria-disabled="true"]:hover {
+    transform: translateY(-50%);
+    background: var(--primary-color);
+}
+
 .carousel-btn-prev {
     left: -10px;
 }
 
 .carousel-btn-next {
     right: -10px;
+}
+
+@media (max-width: 768px) {
+    .carousel-btn {
+        width: 48px;
+        height: 48px;
+        opacity: 0.95;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        display: flex; /* Always show on tablet and mobile */
+    }
+    
+    .carousel-btn .material-icons {
+        font-size: 28px;
+    }
+    
+    .carousel-btn-prev {
+        left: 5px;
+    }
+    
+    .carousel-btn-next {
+        right: 5px;
+    }
+    
+    .pricing-carousel {
+        scroll-padding: 0 3rem; /* Add padding for buttons on mobile */
+    }
+}
+
+@media (max-width: 480px) {
+    .carousel-btn {
+        display: flex !important; /* Show buttons on mobile */
+        width: 44px;
+        height: 44px;
+        opacity: 0.92;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35);
+    }
+    
+    .carousel-btn .material-icons {
+        font-size: 24px;
+    }
+    
+    .carousel-btn-prev {
+        left: 8px;
+    }
+    
+    .carousel-btn-next {
+        right: 8px;
+    }
+    
+    .pricing-carousel {
+        scroll-padding: 0 2.5rem; /* Add padding for buttons on small mobile */
+        gap: 1rem;
+    }
 }
 
 .carousel-btn .material-icons {
@@ -1732,15 +1830,7 @@ section {
 
     .pricing-carousel-wrapper {
         margin: 1.5rem 0;
-        padding: 0 2.5rem;
-    }
-
-    .carousel-btn-prev {
-        left: 5px;
-    }
-    
-    .carousel-btn-next {
-        right: 5px;
+        padding: 0 3rem;
     }
 
     .pricing-tabs {
@@ -1871,17 +1961,11 @@ section {
     }
 
     .pricing-carousel-wrapper {
-        padding: 0 1rem;
+        padding: 0 2.5rem;
     }
 
-    .carousel-btn {
-        width: 35px;
-        height: 35px;
-        display: none; /* Hide buttons on very small screens, use touch scrolling instead */
-    }
-
-    .carousel-btn .material-icons {
-        font-size: 20px;
+    .pricing-carousel {
+        scroll-padding: 0 2.5rem;
     }
 
     .pricing-tabs {
