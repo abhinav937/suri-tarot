@@ -50,18 +50,38 @@ function showSection(sectionId) {
     });
     
     // Update active nav link
-    navLinks.forEach(link => {
+    document.querySelectorAll('.nav-menu a, .footer-nav a').forEach(link => {
         link.classList.remove('active');
-        if (link.getAttribute('href') === `#${sectionId}`) {
+        const href = link.getAttribute('href');
+        if (sectionId === 'home' && (href === '/' || href === '/#')) {
+            link.classList.add('active');
+        } else if (href === `#${sectionId}`) {
             link.classList.add('active');
         }
     });
     
-    // Update URL
+    // Update URL - use '/' for home, '#' for other sections
     if (history.pushState) {
-        history.pushState(null, null, `#${sectionId}`);
+        if (sectionId === 'home') {
+            history.pushState(null, null, '/');
+        } else {
+            history.pushState(null, null, `#${sectionId}`);
+        }
     }
 }
+
+// Handle Home link (/) - remove hash from URL
+document.querySelectorAll('a[href="/"], a[href="https://suritarot.com/"], a[href="https://suritarot.com"]').forEach(link => {
+    link.addEventListener('click', function (e) {
+        e.preventDefault();
+        showSection('home');
+        // Remove hash from URL without reloading
+        if (history.pushState) {
+            history.pushState(null, null, '/');
+        }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+});
 
 // Handle all internal anchor link clicks (nav, buttons, footer, etc.)
 document.querySelectorAll('a[href^="#"]').forEach(link => {
@@ -89,6 +109,10 @@ document.addEventListener('DOMContentLoaded', () => {
         showSection(hash);
     } else {
         showSection('home');
+        // Remove any hash from URL if we're showing home
+        if (window.location.hash && history.replaceState) {
+            history.replaceState(null, null, '/');
+        }
     }
 });
 
@@ -99,6 +123,10 @@ window.addEventListener('popstate', () => {
         showSection(hash);
     } else {
         showSection('home');
+        // Remove any hash from URL if we're showing home
+        if (window.location.hash && history.replaceState) {
+            history.replaceState(null, null, '/');
+        }
     }
 });
 

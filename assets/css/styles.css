@@ -215,6 +215,8 @@ body {
     max-width: 900px;
     padding: 2rem 2rem;
     position: relative;
+    margin: 0 auto;
+    width: 100%;
 }
 
 .hero-logo-container {
@@ -313,28 +315,50 @@ body {
     cursor: pointer;
     transition: all 0.3s ease;
     display: inline-block;
+    position: relative;
+    overflow: hidden;
 }
 
 .btn-primary {
     background: var(--white);
     color: var(--primary-color);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+    border: 2px solid var(--white);
+}
+
+.btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 193, 37, 0.2), transparent);
+    transition: left 0.5s ease;
 }
 
 .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(135deg, var(--white) 0%, rgba(255, 255, 255, 0.95) 100%);
+}
+
+.btn-primary:hover::before {
+    left: 100%;
 }
 
 .btn-secondary {
-    background: transparent;
+    background: rgba(255, 255, 255, 0.1);
     color: var(--white);
     border: 2px solid var(--white);
+    backdrop-filter: blur(10px);
 }
 
 .btn-secondary:hover {
-    background: var(--white);
-    color: var(--primary-color);
+    background: rgba(255, 255, 255, 0.2);
+    border-color: var(--white);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
 }
 
 .hero-decoration {
@@ -353,6 +377,12 @@ body {
 /* Section Styles */
 section {
     padding: 3rem 0;
+    scroll-margin-top: 120px; /* Account for fixed navbar */
+}
+
+/* Extra top padding for sections (except hero) to account for fixed navbar */
+section:not(#home) {
+    padding-top: 5.5rem;
 }
 
 .section-title {
@@ -557,97 +587,53 @@ section {
 
 /* About Section */
 .about {
-    background: linear-gradient(to bottom, var(--accent-color) 0%, var(--light-color) 100%);
+    background: var(--white);
     position: relative;
     overflow: hidden;
 }
 
-.about::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: 
-        radial-gradient(circle at 20% 50%, rgba(255, 193, 37, 0.03) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(255, 193, 37, 0.03) 0%, transparent 50%);
-    pointer-events: none;
-}
-
-.about-content {
-    max-width: 900px;
-    margin: 0 auto;
-    position: relative;
-    z-index: 1;
-}
-
-.about-text {
-    text-align: left;
-}
-
-.about-text p {
-    font-size: 1.1rem;
-    line-height: 1.8;
-    margin-bottom: 1.25rem;
-    color: var(--text-color);
-}
-
-.about-text p strong {
-    color: var(--dark-color);
-    font-weight: 600;
-    letter-spacing: 0.3px;
-}
-
-.about-intro {
-    margin-bottom: 3rem;
-    padding: 2.5rem 2rem;
-    background: var(--white);
+/* About Hero Card */
+.about-hero-card {
+    background: var(--light-color);
+    padding: 3rem 2rem;
     border-radius: 20px;
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-    text-align: center;
+    margin-bottom: 3rem;
     border-top: 4px solid var(--primary-color);
-    position: relative;
 }
 
-.about-intro::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100px;
-    height: 3px;
-    background: var(--primary-color);
-    border-radius: 2px;
+.about-profile-container {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+    max-width: 800px;
+    margin: 0 auto;
 }
 
 .about-profile-image {
-    margin-bottom: 1.75rem;
-    display: flex;
-    justify-content: center;
+    flex-shrink: 0;
     position: relative;
 }
 
 .about-profile-image::before {
     content: '';
     position: absolute;
-    width: 200px;
-    height: 200px;
+    width: 180px;
+    height: 180px;
     border-radius: 50%;
     background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-    opacity: 0.1;
+    opacity: 0.15;
     transform: scale(1.1);
     z-index: 0;
 }
 
 .profile-logo {
-    width: 200px;
-    height: 200px;
+    width: 180px;
+    height: 180px;
     object-fit: contain;
     border-radius: 50%;
     border: 5px solid var(--primary-color);
-    box-shadow: 0 8px 25px rgba(255, 193, 37, 0.25), 0 0 0 8px rgba(255, 193, 37, 0.1);
+    box-shadow: 0 8px 25px rgba(255, 193, 37, 0.25);
     background: var(--white);
     padding: 12px;
     position: relative;
@@ -656,271 +642,276 @@ section {
 }
 
 .profile-logo:hover {
-    transform: scale(1.02);
-    box-shadow: 0 10px 30px rgba(255, 193, 37, 0.3), 0 0 0 8px rgba(255, 193, 37, 0.15);
+    transform: scale(1.05);
+    box-shadow: 0 10px 30px rgba(255, 193, 37, 0.35);
 }
 
-.about-name {
-    font-size: 1.6rem;
-    text-align: center;
-    font-weight: 600;
-    color: var(--dark-color);
-    letter-spacing: 0.5px;
-    line-height: 1.4;
+.about-hero-text {
+    flex: 1;
 }
 
-.about-subheading {
+.about-hero-name {
     font-family: 'Playfair Display', serif;
-    font-size: 1.65rem;
-    color: var(--dark-color);
-    margin-top: 2.5rem;
-    margin-bottom: 1.25rem;
+    font-size: 2.5rem;
     font-weight: 700;
-    position: relative;
-    padding-left: 1.25rem;
-    border-left: 4px solid var(--primary-color);
+    color: var(--dark-color);
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.5px;
+}
+
+.about-hero-tagline {
+    font-size: 1.2rem;
+    color: var(--primary-color);
+    font-weight: 600;
+    margin-bottom: 1rem;
     letter-spacing: 0.3px;
 }
 
-.about-origin {
-    margin-bottom: 2.5rem;
-    padding: 2rem;
-    background: var(--white);
+.about-hero-description {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: var(--text-color);
+    margin: 0;
+}
+
+/* About Grid */
+.about-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.about-card {
+    background: var(--light-color);
+    padding: 2rem 1.5rem;
     border-radius: 15px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: left;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    display: flex;
+    flex-direction: column;
 }
 
-.about-origin:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+.about-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border-color: var(--primary-color);
 }
 
-.about-emphasis {
-    font-size: 1.25rem;
+.about-card-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
     text-align: center;
-    margin: 2.5rem 0;
-    padding: 1.5rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.about-card-icon .material-icons {
+    font-size: 3rem;
+    color: var(--primary-color);
+}
+
+.about-card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    margin-bottom: 1.25rem;
+    color: var(--dark-color);
+    text-align: center;
+    line-height: 1.3;
+    font-weight: 600;
+}
+
+.about-card-content {
+    flex: 1;
+}
+
+.about-card-content p {
+    color: var(--text-color);
+    margin-bottom: 1rem;
+    line-height: 1.7;
+    font-size: 1.05rem;
+}
+
+.about-card-content p:last-child {
+    margin-bottom: 0;
+}
+
+.about-emphasis-text {
+    font-size: 1.2rem;
+    text-align: center;
+    margin: 1.5rem 0;
+    padding: 1rem 1.5rem;
     background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
     color: var(--white);
-    border-radius: 12px;
-    box-shadow: 0 6px 20px rgba(255, 193, 37, 0.3);
+    border-radius: 10px;
     font-weight: 600;
     letter-spacing: 0.5px;
-    text-transform: uppercase;
 }
 
-.about-elements {
+.about-elements-grid,
+.about-outcomes-grid {
     display: flex;
     justify-content: center;
-    gap: 1rem;
+    gap: 0.75rem;
     flex-wrap: wrap;
-    margin: 2.5rem 0;
-    padding: 2rem;
-    background: linear-gradient(135deg, var(--light-color) 0%, var(--white) 100%);
-    border-radius: 15px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
-    border: 2px dashed rgba(255, 193, 37, 0.3);
+    margin: 1.5rem 0;
 }
 
-.element-item {
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: var(--primary-color);
-    padding: 0.75rem 1.5rem;
-    border: 2px solid var(--primary-color);
+.element-badge,
+.outcome-badge {
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 0.6rem 1.25rem;
     border-radius: 25px;
-    background: var(--white);
-    box-shadow: 0 4px 10px rgba(255, 193, 37, 0.15);
     transition: all 0.3s ease;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
+    letter-spacing: 0.3px;
 }
 
-.element-item:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 15px rgba(255, 193, 37, 0.25);
+.element-badge {
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+    background: var(--white);
+}
+
+.element-badge:hover {
+    transform: translateY(-2px);
     background: var(--primary-color);
     color: var(--white);
+    box-shadow: 0 4px 12px rgba(255, 193, 37, 0.3);
 }
 
-.about-outcomes {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    flex-wrap: wrap;
-    margin: 2rem 0 2.5rem 0;
-}
-
-.outcome-item {
-    font-size: 1.1rem;
-    font-weight: 600;
+.outcome-badge {
     color: var(--dark-color);
-    padding: 0.75rem 1.5rem;
+    border: 2px solid var(--accent-color);
     background: var(--white);
-    border-radius: 25px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    border: 2px solid transparent;
-    transition: all 0.3s ease;
-    letter-spacing: 0.3px;
 }
 
-.outcome-item:hover {
+.outcome-badge:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
     border-color: var(--primary-color);
     color: var(--primary-color);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.about-craft {
-    margin-bottom: 2.5rem;
-    padding: 2rem;
-    background: var(--white);
-    border-radius: 15px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
-    border-left: 5px solid var(--primary-color);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.about-craft:hover {
-    transform: translateX(5px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
-}
-
-.about-craft p em {
+.about-card-content em {
     color: var(--primary-color);
     font-style: italic;
     font-weight: 600;
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
 }
 
-.about-specialties {
-    margin-bottom: 2.5rem;
-    padding: 2rem;
-    background: var(--white);
-    border-radius: 15px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+/* Featured Card */
+.about-card-featured {
+    background: linear-gradient(135deg, var(--light-color) 0%, var(--white) 100%);
+    border: 2px solid var(--primary-color);
 }
 
-.about-specialties:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+.about-card-featured:hover {
+    box-shadow: 0 12px 35px rgba(255, 193, 37, 0.2);
 }
 
-.about-philosophy-box {
-    margin-top: 2.5rem;
-    padding: 2.5rem 2rem;
-    background: linear-gradient(135deg, var(--white) 0%, var(--light-color) 100%);
-    border-radius: 20px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-    border: 3px solid var(--primary-color);
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-}
-
-.about-philosophy-box::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    right: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(255, 193, 37, 0.05) 0%, transparent 70%);
-    pointer-events: none;
-}
-
-.about-philosophy-box p {
-    position: relative;
-    z-index: 1;
-}
-
-.about-quote {
-    font-size: 1.5rem;
-    margin: 2rem 0;
-    padding: 1.5rem 2rem;
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-    border-radius: 12px;
-    font-style: italic;
-    color: var(--white);
-    box-shadow: 0 6px 20px rgba(255, 193, 37, 0.3);
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    position: relative;
-    z-index: 1;
-    line-height: 1.6;
-}
-
-.about-quote::before,
-.about-quote::after {
-    content: '"';
-    font-size: 2.5rem;
-    color: rgba(255, 255, 255, 0.5);
-    font-family: 'Playfair Display', serif;
-    position: absolute;
-}
-
-.about-quote::before {
-    top: -5px;
-    left: 10px;
-}
-
-.about-quote::after {
-    bottom: -30px;
-    right: 10px;
-}
-
-.specialties-list {
+.about-specialties-list {
     list-style: none;
     margin: 1.5rem 0 0 0;
     padding: 0;
-    background: transparent;
 }
 
-.specialties-list li {
+.about-specialties-list li {
     padding: 1rem 0;
-    padding-left: 2.5rem;
+    padding-left: 3rem;
     position: relative;
     color: var(--text-color);
-    font-size: 1.1rem;
-    line-height: 1.8;
+    font-size: 1.05rem;
+    line-height: 1.7;
     border-bottom: 1px solid var(--accent-color);
     transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
 }
 
-.specialties-list li:last-child {
+.about-specialties-list li:last-child {
     border-bottom: none;
 }
 
-.specialties-list li:hover {
-    padding-left: 3rem;
+.about-specialties-list li:hover {
+    padding-left: 3.5rem;
     color: var(--primary-color);
 }
 
-.specialties-list li::before {
-    content: '✦';
+.specialty-icon {
+    color: var(--primary-color);
+    font-size: 1.5rem;
     position: absolute;
     left: 0;
-    color: var(--primary-color);
-    font-weight: bold;
-    font-size: 1.3rem;
     transition: transform 0.3s ease;
 }
 
-.specialties-list li:hover::before {
-    transform: rotate(15deg) scale(1.2);
+.about-specialties-list li:hover .specialty-icon {
+    transform: scale(1.2) rotate(5deg);
 }
 
-.section-divider {
-    margin: 2rem 0;
+/* Quote Card */
+.about-card-quote {
     text-align: center;
-    opacity: 0.3;
+    background: linear-gradient(135deg, var(--white) 0%, var(--light-color) 100%);
+    border: 3px solid var(--primary-color);
+}
+
+.about-card-intro,
+.about-card-outro {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--text-color);
+    margin-bottom: 1.5rem;
+}
+
+.about-card-outro {
+    margin-top: 1.5rem;
+    margin-bottom: 0;
+}
+
+.about-quote-block {
+    margin: 2rem 0;
+    padding: 2rem;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    border-radius: 15px;
+    box-shadow: 0 6px 20px rgba(255, 193, 37, 0.3);
+    position: relative;
+    border: none;
+}
+
+.about-quote-block::before,
+.about-quote-block::after {
+    content: '"';
+    font-size: 3rem;
+    color: rgba(255, 255, 255, 0.4);
+    font-family: 'Playfair Display', serif;
+    position: absolute;
+    font-weight: 700;
+}
+
+.about-quote-block::before {
+    top: 0.5rem;
+    left: 1rem;
+}
+
+.about-quote-block::after {
+    bottom: -1rem;
+    right: 1rem;
+}
+
+.about-quote-block p {
     font-size: 1.5rem;
-    letter-spacing: 2px;
+    font-style: italic;
+    color: var(--white);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    margin: 0;
+    line-height: 1.5;
+    position: relative;
+    z-index: 1;
 }
 
 /* Pricing Section */
@@ -1137,7 +1128,7 @@ section {
 
 @media (max-width: 480px) {
     /* About Section - Small Mobile */
-    .about-intro {
+    .about-hero-card {
         padding: 1.5rem 1rem;
     }
     
@@ -1152,70 +1143,62 @@ section {
         height: 140px;
     }
     
-    .about-name {
-        font-size: 1.25rem;
+    .about-hero-name {
+        font-size: 1.75rem;
     }
     
-    .about-subheading {
-        font-size: 1.25rem;
-        margin-top: 1.5rem;
-        padding-left: 0.75rem;
-    }
-    
-    .about-origin,
-    .about-craft,
-    .about-specialties {
-        padding: 1.25rem 1rem;
-        margin-bottom: 1.5rem;
-    }
-    
-    .about-emphasis {
+    .about-hero-tagline {
         font-size: 1rem;
-        padding: 1rem 1.25rem;
-        margin: 1.5rem 0;
     }
     
-    .about-elements {
-        padding: 1.25rem 1rem;
-        gap: 0.5rem;
-        margin: 1.5rem 0;
-    }
-    
-    .element-item {
-        font-size: 0.8rem;
-        padding: 0.5rem 1rem;
-    }
-    
-    .outcome-item {
+    .about-hero-description {
         font-size: 0.95rem;
-        padding: 0.5rem 1rem;
     }
     
-    .about-philosophy-box {
-        padding: 1.5rem 1rem;
-        margin-top: 1.5rem;
+    .about-card {
+        padding: 1.25rem 1rem;
     }
     
-    .about-quote {
+    .about-card-title {
+        font-size: 1.4rem;
+    }
+    
+    .about-card-content p {
+        font-size: 1rem;
+    }
+    
+    .about-emphasis-text {
+        font-size: 1rem;
+        padding: 0.875rem 1rem;
+    }
+    
+    .element-badge,
+    .outcome-badge {
+        font-size: 0.8rem;
+        padding: 0.5rem 0.875rem;
+    }
+    
+    .about-quote-block {
+        padding: 1.25rem;
+    }
+    
+    .about-quote-block p {
         font-size: 1.15rem;
-        padding: 1rem 1.25rem;
-        margin: 1.25rem 0;
     }
     
-    .about-quote::before,
-    .about-quote::after {
+    .about-quote-block::before,
+    .about-quote-block::after {
         font-size: 2rem;
     }
     
-    .specialties-list li {
+    .about-specialties-list li {
         font-size: 0.95rem;
         padding: 0.75rem 0;
-        padding-left: 1.75rem;
+        padding-left: 2rem;
     }
     
-    .about-text p {
-        font-size: 1rem;
-        line-height: 1.7;
+    .specialty-icon {
+        font-size: 1.2rem;
     }
     
     .pricing-carousel-wrapper {
@@ -1554,154 +1537,276 @@ section {
 /* Philosophy Section */
 .philosophy {
     background: var(--accent-color);
-    padding: 3rem 0;
+    position: relative;
+    overflow: hidden;
 }
 
-.philosophy-content {
-    max-width: 900px;
-    margin: 0 auto;
-    text-align: center;
-}
-
-.philosophy-intro {
-    margin-bottom: 2rem;
-    padding: 1.5rem;
+/* Philosophy Statement Card */
+.philosophy-statement-card {
     background: var(--white);
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    padding: 2.5rem 2rem;
+    border-radius: 20px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    margin-bottom: 3rem;
+    text-align: center;
+    border-top: 4px solid var(--primary-color);
 }
 
 .philosophy-statement {
-    font-size: 1.25rem;
+    font-size: 1.4rem;
     font-weight: 600;
     color: var(--dark-color);
-    margin-bottom: 0.75rem;
+    margin-bottom: 1rem;
     line-height: 1.5;
-}
-
-.philosophy-what-it-is {
-    margin-bottom: 2rem;
-}
-
-.philosophy-subheading {
     font-family: 'Playfair Display', serif;
-    font-size: 1.4rem;
+}
+
+.philosophy-statement:last-child {
+    margin-bottom: 0;
+}
+
+/* Philosophy Principles Grid */
+.philosophy-principles-grid {
+    margin-bottom: 3rem;
+}
+
+.philosophy-section-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
     color: var(--dark-color);
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
     font-weight: 600;
     text-align: center;
 }
 
 .philosophy-principles {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1rem;
-    margin: 1.5rem 0;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
 }
 
-.principle-item {
+.philosophy-principle-card {
     background: var(--white);
-    padding: 1.5rem 1rem;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    padding: 2rem 1.5rem;
+    border-radius: 15px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.75rem;
+    gap: 1rem;
     transition: all 0.3s ease;
     border: 2px solid transparent;
+    text-align: center;
 }
 
-.principle-item:hover {
+.philosophy-principle-card:hover {
     transform: translateY(-5px);
     border-color: var(--primary-color);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
 }
 
-.principle-icon {
-    font-size: 2.2rem;
-    color: var(--primary-color);
+.philosophy-principle-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(255, 193, 37, 0.3);
+    transition: transform 0.3s ease;
+}
+
+.philosophy-principle-card:hover .philosophy-principle-icon {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.philosophy-principle-icon .material-icons {
+    font-size: 2.5rem;
+    color: var(--white);
+}
+
+.philosophy-principle-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--dark-color);
+    margin: 0;
+    letter-spacing: 0.3px;
+}
+
+/* Philosophy Core Card */
+.philosophy-core-card {
+    background: var(--white);
+    padding: 3rem 2.5rem;
+    border-radius: 20px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    margin-bottom: 3rem;
+    text-align: center;
+    border: 3px solid var(--primary-color);
+    position: relative;
+    overflow: hidden;
+}
+
+.philosophy-core-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 193, 37, 0.05) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.philosophy-core-icon {
+    margin-bottom: 1.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.principle-icon.material-icons {
-    font-size: 2.2rem;
+.philosophy-core-icon .material-icons {
+    font-size: 3rem;
+    color: var(--primary-color);
 }
 
-.principle-text {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: var(--dark-color);
-    text-align: center;
-}
-
-.philosophy-core {
+.philosophy-core-quote {
     margin: 2rem 0;
-    padding: 1.5rem;
-    background: var(--white);
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-    border-left: 4px solid var(--primary-color);
+    padding: 2rem;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    border-radius: 15px;
+    box-shadow: 0 6px 20px rgba(255, 193, 37, 0.3);
+    position: relative;
+    border: none;
 }
 
-.philosophy-quote {
-    font-size: 1.3rem;
-    margin-bottom: 1rem;
-    color: var(--dark-color);
+.philosophy-core-quote::before,
+.philosophy-core-quote::after {
+    content: '"';
+    font-size: 3rem;
+    color: rgba(255, 255, 255, 0.4);
+    font-family: 'Playfair Display', serif;
+    position: absolute;
+    font-weight: 700;
+}
+
+.philosophy-core-quote::before {
+    top: 0.5rem;
+    left: 1rem;
+}
+
+.philosophy-core-quote::after {
+    bottom: -1rem;
+    right: 1rem;
+}
+
+.philosophy-core-quote p {
+    font-size: 1.6rem;
     font-style: italic;
-    padding: 1rem;
-    background: var(--accent-color);
-    border-radius: 8px;
+    color: var(--white);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    margin: 0;
+    line-height: 1.5;
+    position: relative;
+    z-index: 1;
+    font-family: 'Playfair Display', serif;
 }
 
-.philosophy-core p {
-    font-size: 1.05rem;
+.philosophy-core-text {
+    font-size: 1.1rem;
     line-height: 1.7;
     color: var(--text-color);
+    margin: 1.5rem 0 0 0;
+    position: relative;
+    z-index: 1;
+}
+
+/* Philosophy Approach Card */
+.philosophy-approach-card {
+    background: var(--white);
+    padding: 2.5rem 2rem;
+    border-radius: 20px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    margin-bottom: 3rem;
+    text-align: center;
+    border-left: 5px solid var(--primary-color);
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.philosophy-approach-icon {
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.philosophy-approach-icon .material-icons {
+    font-size: 3rem;
+    color: var(--primary-color);
+}
+
+.philosophy-approach-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    color: var(--dark-color);
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+.philosophy-approach-content {
+    text-align: left;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.philosophy-approach-content p {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: var(--text-color);
+    margin-bottom: 1rem;
+}
+
+.philosophy-approach-content p:last-child {
     margin-bottom: 0;
 }
 
-.philosophy-approach {
-    margin: 2rem 0;
-}
-
-.approach-box {
-    background: var(--white);
-    padding: 1.5rem;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-    text-align: left;
+/* Philosophy Final Card */
+.philosophy-final-card {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    padding: 2.5rem 2rem;
+    border-radius: 20px;
+    box-shadow: 0 8px 30px rgba(255, 193, 37, 0.3);
+    text-align: center;
     max-width: 700px;
     margin: 0 auto;
 }
 
-.approach-box p {
-    font-size: 1.05rem;
-    line-height: 1.7;
-    color: var(--text-color);
-    margin-bottom: 0.75rem;
+.philosophy-final-icon {
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.approach-box p:last-child {
-    margin-bottom: 0;
+.philosophy-final-icon .material-icons {
+    font-size: 3rem;
+    color: var(--white);
 }
 
-.philosophy-final {
-    margin-top: 2rem;
-    padding: 1.5rem;
-    background: var(--white);
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-}
-
-.philosophy-emphasis {
-    font-size: 1.25rem;
-    color: var(--dark-color);
+.philosophy-final-text {
+    font-size: 1.4rem;
+    color: var(--white);
     font-weight: 600;
-    text-align: center;
     margin: 0;
+    letter-spacing: 0.5px;
+    line-height: 1.6;
+    font-family: 'Playfair Display', serif;
 }
 
 /* Disclaimer Section */
@@ -2325,8 +2430,14 @@ section {
     }
 
     /* About Section Responsive */
-    .about-intro {
+    .about-hero-card {
         padding: 2rem 1.5rem;
+    }
+    
+    .about-profile-container {
+        flex-direction: column;
+        text-align: center;
+        gap: 2rem;
     }
     
     .profile-logo {
@@ -2339,66 +2450,58 @@ section {
         height: 160px;
     }
     
-    .about-name {
-        font-size: 1.4rem;
+    .about-hero-name {
+        font-size: 2rem;
     }
     
-    .about-subheading {
-        font-size: 1.4rem;
-        margin-top: 2rem;
-        padding-left: 1rem;
-        border-left-width: 3px;
-    }
-    
-    .about-origin,
-    .about-craft,
-    .about-specialties {
-        padding: 1.5rem;
-        margin-bottom: 2rem;
-    }
-    
-    .about-emphasis {
+    .about-hero-tagline {
         font-size: 1.1rem;
-        padding: 1.25rem 1.5rem;
-        margin: 2rem 0;
     }
     
-    .about-elements {
-        padding: 1.5rem;
-        gap: 0.75rem;
-        margin: 2rem 0;
-    }
-    
-    .element-item {
-        font-size: 0.85rem;
-        padding: 0.6rem 1.25rem;
-    }
-    
-    .outcome-item {
+    .about-hero-description {
         font-size: 1rem;
-        padding: 0.6rem 1.25rem;
     }
     
-    .about-philosophy-box {
-        padding: 2rem 1.5rem;
-        margin-top: 2rem;
+    .about-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
     }
     
-    .about-quote {
+    .about-card {
+        padding: 1.5rem;
+    }
+    
+    .about-card-title {
+        font-size: 1.6rem;
+    }
+    
+    .about-emphasis-text {
+        font-size: 1.1rem;
+        padding: 0.875rem 1.25rem;
+    }
+    
+    .element-badge,
+    .outcome-badge {
+        font-size: 0.85rem;
+        padding: 0.5rem 1rem;
+    }
+    
+    .about-quote-block {
+        padding: 1.5rem;
+    }
+    
+    .about-quote-block p {
         font-size: 1.3rem;
-        padding: 1.25rem 1.5rem;
-        margin: 1.5rem 0;
     }
     
-    .specialties-list li {
+    .about-specialties-list li {
         font-size: 1rem;
         padding: 0.875rem 0;
-        padding-left: 2rem;
+        padding-left: 2.5rem;
     }
     
-    .about-text p {
-        font-size: 1.05rem;
-        line-height: 1.75;
+    .specialty-icon {
+        font-size: 1.3rem;
     }
 
     .pricing-tab {
@@ -2586,41 +2689,71 @@ section {
         padding: 1.5rem;
     }
 
-    .philosophy-principles {
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-        gap: 1rem;
+    /* Philosophy Section Responsive */
+    .philosophy-statement-card {
+        padding: 2rem 1.5rem;
     }
-
-    .principle-item {
-        padding: 1.5rem 1rem;
-    }
-
-    .principle-icon {
-        font-size: 2rem;
-    }
-
-    .principle-text {
-        font-size: 1.1rem;
-    }
-
+    
     .philosophy-statement {
         font-size: 1.2rem;
     }
-
-    .philosophy-quote {
-        font-size: 1.3rem;
-        padding: 1rem;
+    
+    .philosophy-section-heading {
+        font-size: 1.5rem;
     }
-
-    .philosophy-emphasis {
-        font-size: 1.2rem;
+    
+    .philosophy-principles {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 1rem;
     }
-
-    .philosophy-intro,
-    .philosophy-core,
-    .approach-box,
-    .philosophy-final {
+    
+    .philosophy-principle-card {
+        padding: 1.5rem 1rem;
+    }
+    
+    .philosophy-principle-icon {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .philosophy-principle-icon .material-icons {
+        font-size: 2rem;
+    }
+    
+    .philosophy-principle-title {
+        font-size: 1.15rem;
+    }
+    
+    .philosophy-core-card {
+        padding: 2rem 1.5rem;
+    }
+    
+    .philosophy-core-quote {
         padding: 1.5rem;
+    }
+    
+    .philosophy-core-quote p {
+        font-size: 1.3rem;
+    }
+    
+    .philosophy-approach-card {
+        padding: 2rem 1.5rem;
+    }
+    
+    .philosophy-approach-title {
+        font-size: 1.5rem;
+    }
+    
+    .philosophy-approach-content p {
+        font-size: 1rem;
+    }
+    
+    .philosophy-final-card {
+        padding: 2rem 1.5rem;
+    }
+    
+    .philosophy-final-text {
+        font-size: 1.2rem;
     }
 
     .about-subheading {
@@ -2645,25 +2778,76 @@ section {
         font-size: 1.5rem;
     }
 
-    .about-emphasis {
+    /* Philosophy Section - Small Mobile */
+    .philosophy-statement-card {
+        padding: 1.5rem 1rem;
+    }
+    
+    .philosophy-statement {
         font-size: 1.1rem;
     }
-
-    .about-quote {
-        font-size: 1.2rem;
-        padding: 1rem;
+    
+    .philosophy-section-heading {
+        font-size: 1.3rem;
     }
-
-    .about-elements,
-    .about-craft,
-    .about-philosophy-box {
-        padding: 1.5rem;
+    
+    .philosophy-principles {
+        grid-template-columns: 1fr;
+        gap: 1rem;
     }
-
-    .element-item,
-    .outcome-item {
-        font-size: 1rem;
-        padding: 0.4rem 0.8rem;
+    
+    .philosophy-principle-card {
+        padding: 1.25rem 1rem;
+    }
+    
+    .philosophy-principle-icon {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .philosophy-principle-icon .material-icons {
+        font-size: 1.75rem;
+    }
+    
+    .philosophy-principle-title {
+        font-size: 1.1rem;
+    }
+    
+    .philosophy-core-card {
+        padding: 1.5rem 1rem;
+    }
+    
+    .philosophy-core-quote {
+        padding: 1.25rem;
+    }
+    
+    .philosophy-core-quote p {
+        font-size: 1.15rem;
+    }
+    
+    .philosophy-core-quote::before,
+    .philosophy-core-quote::after {
+        font-size: 2rem;
+    }
+    
+    .philosophy-approach-card {
+        padding: 1.5rem 1rem;
+    }
+    
+    .philosophy-approach-title {
+        font-size: 1.3rem;
+    }
+    
+    .philosophy-approach-content p {
+        font-size: 0.95rem;
+    }
+    
+    .philosophy-final-card {
+        padding: 1.5rem 1rem;
+    }
+    
+    .philosophy-final-text {
+        font-size: 1.1rem;
     }
 
     .disclaimer-content {
