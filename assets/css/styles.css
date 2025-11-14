@@ -400,7 +400,7 @@ section {
     border-radius: 15px;
     text-align: left;
     transition: all 0.3s ease;
-    border: 2px solid transparent;
+    border: none;
     display: flex;
     flex-direction: column;
 }
@@ -421,7 +421,6 @@ section {
 .service-card:hover {
     transform: translateY(-10px);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    border-color: var(--primary-color);
 }
 
 .service-icon {
@@ -1882,15 +1881,30 @@ section {
         background: var(--light-color);
         border-radius: 15px;
         transition: all 0.3s ease;
-        border: 2px solid transparent;
+        border: none;
         gap: 1rem;
         position: relative;
         z-index: 1;
     }
     
     .service-header-mobile:hover {
-        border-color: var(--primary-color);
         background: var(--white);
+    }
+    
+    .service-header-mobile:focus {
+        outline: none;
+        border: none;
+    }
+    
+    .service-card.active .service-header-mobile {
+        border: none;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        background: var(--light-color);
+    }
+    
+    .service-card.active .service-header-mobile:hover {
+        background: var(--light-color);
     }
     
     .service-header-mobile:active {
@@ -1937,8 +1951,18 @@ section {
         background: var(--accent-color);
     }
     
+    .service-toggle:focus {
+        outline: none;
+        border: none;
+    }
+    
     .service-toggle:active {
         transform: scale(0.9);
+    }
+    
+    .service-toggle:focus-visible {
+        outline: 2px solid var(--text-light);
+        outline-offset: 2px;
     }
     
     .service-toggle .material-icons {
@@ -1959,12 +1983,17 @@ section {
                     opacity 0.3s ease, 
                     padding 0.3s ease;
         padding: 0 1.5rem;
+        border: none;
     }
     
     .service-card.active .service-content {
         max-height: 3000px;
         opacity: 1;
         padding: 0 1.5rem 1.5rem 1.5rem;
+        background: var(--white);
+        border-bottom-left-radius: 15px;
+        border-bottom-right-radius: 15px;
+        border: none;
     }
     
     /* Hide original icon and h3 on mobile since they're in header */
@@ -1974,6 +2003,23 @@ section {
     
     .service-card > h3:first-of-type {
         display: none;
+    }
+    
+    /* Remove any borders on active state */
+    .service-card.active {
+        border: none;
+        box-shadow: none;
+    }
+    
+    .service-card.active .service-header-mobile {
+        box-shadow: none;
+        border: none;
+    }
+    
+    .service-card.active:hover {
+        transform: none;
+        box-shadow: none;
+        border: none;
     }
 
     .pricing-note {
