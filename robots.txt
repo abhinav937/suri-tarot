@@ -5,7 +5,7 @@ User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://abhinav937.github.io/suri_tarrot/sitemap.xml
+Sitemap: https://suritarot.com/sitemap.xml
 
 # Disallow admin or private areas (if any)
 # Disallow: /admin/
