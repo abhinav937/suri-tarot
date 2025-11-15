@@ -227,8 +227,152 @@ document.querySelectorAll('.service-card, .pricing-card').forEach(card => {
 
 // Venmo profile URL
 const venmoProfileUrl = 'https://www.venmo.com/u/suri_tarot';
+const venmoDeepLink = 'venmo://paycharge?txn=pay&recipients=suri_tarot';
+const venmoUsername = 'suri_tarot';
 
-document.getElementById('venmo-link').href = venmoProfileUrl;
+// Detect if user is in an in-app browser (Instagram, TikTok, Facebook, etc.)
+function isInAppBrowser() {
+    const ua = navigator.userAgent || navigator.vendor || window.opera;
+    
+    // Check for in-app browsers
+    const isInstagram = /Instagram/i.test(ua);
+    const isTikTok = /TikTok/i.test(ua);
+    const isFacebook = /FBAN|FBAV/i.test(ua);
+    const isFacebookMessenger = /FB_IAB|FBAN|FBAV/i.test(ua);
+    const isLine = /Line/i.test(ua);
+    const isWeChat = /MicroMessenger/i.test(ua);
+    const isLinkedIn = /LinkedInApp/i.test(ua);
+    const isTwitter = /Twitter/i.test(ua);
+    
+    // Check if it's an in-app browser by checking if window is standalone
+    // In-app browsers typically don't have standalone mode
+    const isStandalone = window.navigator.standalone === true;
+    const isChrome = /Chrome/i.test(ua) && !(/Edg/i.test(ua) || /OPR/i.test(ua));
+    const isSafari = /Safari/i.test(ua) && !isChrome && !isInstagram && !isFacebook;
+    
+    // If it's not standalone Safari/Chrome and has social media indicators, likely in-app
+    return isInstagram || isTikTok || isFacebook || isFacebookMessenger || 
+           isLine || isWeChat || isLinkedIn || isTwitter || 
+           (!isStandalone && (isInstagram || isFacebook));
+}
+
+// Handle Venmo link clicks with in-app browser support
+function handleVenmoLink(e) {
+    const inAppBrowser = isInAppBrowser();
+    
+    if (inAppBrowser) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        // Try to open Venmo app using deep link
+        const userAgent = navigator.userAgent.toLowerCase();
+        const isIOS = /iphone|ipad|ipod/.test(userAgent);
+        const isAndroid = /android/.test(userAgent);
+        
+        // Venmo deep link formats
+        // For profile view: venmo://users/USERNAME
+        // For payment: venmo://paycharge?txn=pay&recipients=USERNAME
+        const venmoProfileDeepLink = `venmo://users/${venmoUsername}`;
+        const venmoPaymentDeepLink = `venmo://paycharge?txn=pay&recipients=${venmoUsername}`;
+        
+        // Try deep link first
+        if (isIOS) {
+            // iOS: Try venmo:// deep link using location.href
+            // This will open the Venmo app if installed, or do nothing
+            let deepLinkAttempted = false;
+            
+            // Try profile deep link first
+            const attemptDeepLink = () => {
+                if (!deepLinkAttempted) {
+                    deepLinkAttempted = true;
+                    window.location.href = venmoProfileDeepLink;
+                    
+                    // Fallback: If deep link doesn't work after a delay, 
+                    // create a new window/tab with the web URL
+                    setTimeout(() => {
+                        // Only fallback if we're still on the page (deep link didn't navigate away)
+                        if (document.hasFocus && document.hasFocus()) {
+                            window.open(venmoProfileUrl, '_blank');
+                        }
+                    }, 1000);
+                }
+            };
+            
+            attemptDeepLink();
+        } else if (isAndroid) {
+            // Android: Try intent URL first, then venmo://
+            const intentUrl = `intent://users/${venmoUsername}#Intent;scheme=venmo;package=com.venmo;end`;
+            
+            // Try intent URL
+            window.location.href = intentUrl;
+            
+            // Fallback after delay
+            setTimeout(() => {
+                // Try direct deep link
+                try {
+                    window.location.href = venmoProfileDeepLink;
+                } catch (err) {
+                    // Final fallback: open web URL
+                    window.open(venmoProfileUrl, '_blank');
+                }
+            }, 800);
+        } else {
+            // Desktop or unknown: just open in new tab
+            window.open(venmoProfileUrl, '_blank');
+        }
+    } else {
+        // Regular browser: allow normal link behavior
+        // Link will work normally with target="_blank"
+    }
+}
+
+// Initialize Venmo links
+function initializeVenmoLinks() {
+    // Set up all Venmo links - use multiple selectors to catch all variations
+    const venmoLinkSelectors = [
+        'a[href*="venmo.com"]',
+        '#venmo-link',
+        '.venmo-link',
+        'a[href*="/u/suri_tarot"]'
+    ];
+    
+    const venmoLinks = [];
+    venmoLinkSelectors.forEach(selector => {
+        const links = document.querySelectorAll(selector);
+        links.forEach(link => {
+            if (!venmoLinks.includes(link)) {
+                venmoLinks.push(link);
+            }
+        });
+    });
+    
+    venmoLinks.forEach(link => {
+        // Ensure href is set for links with specific IDs or classes
+        if (link.id === 'venmo-link' || link.classList.contains('venmo-link')) {
+            link.href = venmoProfileUrl;
+        }
+        // Also ensure href is set if it contains venmo.com
+        if (link.href && link.href.includes('venmo.com') && !link.href.includes('/u/suri_tarot')) {
+            // Update to correct username if needed
+            if (link.href.includes('/u/')) {
+                link.href = venmoProfileUrl;
+            }
+        }
+        
+        // Remove existing listener to avoid duplicates
+        link.removeEventListener('click', handleVenmoLink);
+        // Add click handler for in-app browser detection
+        link.addEventListener('click', handleVenmoLink);
+    });
+}
+
+// Initialize on DOM ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeVenmoLinks);
+} else {
+    // DOM is already ready
+    initializeVenmoLinks();
+}
 
 // Pricing Tabs Functionality
 const pricingTabs = document.querySelectorAll('.pricing-tab');
