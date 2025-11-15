@@ -443,13 +443,56 @@ document.addEventListener('DOMContentLoaded', () => {
     const serviceToggles = document.querySelectorAll('.service-toggle');
     const serviceHeaders = document.querySelectorAll('.service-header-mobile');
     
+    // Check if we're on mobile view
+    const isMobile = () => window.innerWidth <= 768;
+    
+    // Initialize: Open first service card on mobile, close others
+    if (isMobile() && serviceCards.length > 0) {
+        // Close all cards first
+        serviceCards.forEach((card, index) => {
+            card.classList.remove('active');
+            if (serviceToggles[index]) {
+                serviceToggles[index].setAttribute('aria-expanded', 'false');
+            }
+        });
+        
+        // Open the first service card
+        if (serviceCards[0] && serviceToggles[0]) {
+            serviceCards[0].classList.add('active');
+            serviceToggles[0].setAttribute('aria-expanded', 'true');
+            
+            // Scroll to first card on initial load (only if services section is visible)
+            setTimeout(() => {
+                const servicesSection = document.getElementById('services');
+                if (servicesSection) {
+                    const isSectionVisible = servicesSection.getBoundingClientRect().top < window.innerHeight;
+                    // Only scroll if services section is already in view or close to view
+                    if (isSectionVisible || window.pageYOffset === 0) {
+                        const navbar = document.querySelector('.navbar');
+                        const navbarHeight = navbar ? navbar.offsetHeight : 80;
+                        const cardRect = serviceCards[0].getBoundingClientRect();
+                        const cardTop = cardRect.top + window.pageYOffset;
+                        const scrollPosition = cardTop - navbarHeight;
+                        
+                        window.scrollTo({
+                            top: Math.max(0, scrollPosition),
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            }, 300);
+        }
+    }
+    
     // Toggle service card on button click
     serviceToggles.forEach((toggle, index) => {
         const card = serviceCards[index];
         
         toggle.addEventListener('click', (e) => {
             e.stopPropagation();
-            toggleServiceCard(card, toggle);
+            if (isMobile()) {
+                toggleServiceCard(card, toggle, index);
+            }
         });
     });
     
@@ -460,42 +503,93 @@ document.addEventListener('DOMContentLoaded', () => {
         
         header.addEventListener('click', (e) => {
             // Only toggle if click wasn't on the button itself
-            if (!e.target.closest('.service-toggle')) {
-                toggleServiceCard(card, toggle);
+            if (!e.target.closest('.service-toggle') && isMobile()) {
+                toggleServiceCard(card, toggle, index);
             }
         });
     });
     
-    function toggleServiceCard(card, toggle) {
+    function toggleServiceCard(card, toggle, currentIndex) {
+        // Only apply accordion behavior on mobile
+        if (!isMobile()) {
+            return;
+        }
+        
         const isActive = card.classList.contains('active');
         
-        // Close all other cards (optional: uncomment if you want only one open at a time)
-        // serviceCards.forEach((otherCard, otherIndex) => {
-        //     if (otherCard !== card) {
-        //         otherCard.classList.remove('active');
-        //         serviceToggles[otherIndex].setAttribute('aria-expanded', 'false');
-        //     }
-        // });
+        // Function to scroll to card
+        const scrollToCard = () => {
+            const navbar = document.querySelector('.navbar');
+            const navbarHeight = navbar ? navbar.offsetHeight : 80;
+            
+            // Try to get the header position first (more accurate), fallback to card
+            const header = card.querySelector('.service-header-mobile');
+            const targetElement = header || card;
+            
+            // Get the element's position relative to the document
+            const elementRect = targetElement.getBoundingClientRect();
+            const elementTop = elementRect.top + window.pageYOffset;
+            
+            // Calculate scroll position to place element at top (after navbar)
+            const scrollPosition = elementTop - navbarHeight;
+            
+            window.scrollTo({
+                top: Math.max(0, scrollPosition), // Ensure we don't scroll to negative position
+                behavior: 'smooth'
+            });
+        };
+        
+        // Function to perform scroll with proper timing
+        const performScroll = () => {
+            // Scroll immediately when opening (for better UX), then adjust after layout settles
+            // First scroll - happens quickly for responsiveness
+            requestAnimationFrame(() => {
+                scrollToCard();
+            });
+            
+            // Second scroll - happens after animations complete to ensure accurate positioning
+            setTimeout(() => {
+                requestAnimationFrame(() => {
+                    scrollToCard();
+                });
+            }, 550); // Wait for staggered animations (100ms delay + 400ms animation + buffer)
+        };
         
         if (isActive) {
+            // If clicking the active card, close it
             card.classList.remove('active');
             toggle.setAttribute('aria-expanded', 'false');
         } else {
-            card.classList.add('active');
-            toggle.setAttribute('aria-expanded', 'true');
+            // Stagger the animations: close others first, then open the new one
+            // This prevents the jerk effect by allowing smooth transitions
+            const hasOtherActive = Array.from(serviceCards).some((otherCard) => 
+                otherCard !== card && otherCard.classList.contains('active')
+            );
             
-            // Smooth scroll to card if needed (optional)
-            setTimeout(() => {
-                const cardTop = card.getBoundingClientRect().top + window.pageYOffset;
-                const navbar = document.querySelector('.navbar');
-                const navbarHeight = navbar ? navbar.offsetHeight : 80;
-                const offsetTop = cardTop - navbarHeight - 20;
-                
-                window.scrollTo({
-                    top: offsetTop,
-                    behavior: 'smooth'
+            if (hasOtherActive) {
+                // Close all other cards first
+                serviceCards.forEach((otherCard, otherIndex) => {
+                    if (otherCard !== card && otherCard.classList.contains('active')) {
+                        otherCard.classList.remove('active');
+                        if (serviceToggles[otherIndex]) {
+                            serviceToggles[otherIndex].setAttribute('aria-expanded', 'false');
+                        }
+                    }
                 });
-            }, 100);
+                
+                // Open the new card after a brief delay to allow closing animation to start
+                // This creates a smooth staggered transition instead of simultaneous animations
+                setTimeout(() => {
+                    card.classList.add('active');
+                    toggle.setAttribute('aria-expanded', 'true');
+                    performScroll();
+                }, 150); // Delay to let closing animation start smoothly
+            } else {
+                // No other card is open, just open this one immediately
+                card.classList.add('active');
+                toggle.setAttribute('aria-expanded', 'true');
+                performScroll();
+            }
         }
     }
     
@@ -504,11 +598,28 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('resize', () => {
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(() => {
-            // Reset accordion on desktop (if window is resized from mobile to desktop)
-            if (window.innerWidth > 768) {
+            if (isMobile()) {
+                // On mobile: ensure first card is open, others closed
                 serviceCards.forEach((card, index) => {
-                    card.classList.add('active'); // Show all on desktop
-                    serviceToggles[index].setAttribute('aria-expanded', 'true');
+                    if (index === 0) {
+                        card.classList.add('active');
+                        if (serviceToggles[index]) {
+                            serviceToggles[index].setAttribute('aria-expanded', 'true');
+                        }
+                    } else {
+                        card.classList.remove('active');
+                        if (serviceToggles[index]) {
+                            serviceToggles[index].setAttribute('aria-expanded', 'false');
+                        }
+                    }
+                });
+            } else {
+                // On desktop: show all cards (accordion is disabled)
+                serviceCards.forEach((card, index) => {
+                    card.classList.add('active');
+                    if (serviceToggles[index]) {
+                        serviceToggles[index].setAttribute('aria-expanded', 'true');
+                    }
                 });
             }
         }, 250);

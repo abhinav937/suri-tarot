@@ -2539,11 +2539,12 @@ section:not(#home) {
         max-height: 0;
         overflow: hidden;
         opacity: 0;
-        transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
-                    opacity 0.3s ease, 
-                    padding 0.3s ease;
+        transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), 
+                    opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+                    padding 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         padding: 0 1.5rem;
         border: none;
+        will-change: max-height, opacity;
     }
     
     .service-card.active .service-content {
@@ -2554,6 +2555,11 @@ section:not(#home) {
         border-bottom-left-radius: 15px;
         border-bottom-right-radius: 15px;
         border: none;
+    }
+    
+    /* Smooth transition for service cards on mobile to prevent jerk */
+    .service-card {
+        transition: transform 0.2s ease, margin 0.2s ease, box-shadow 0.2s ease;
     }
     
     /* Hide original icon and h3 on mobile since they're in header */
