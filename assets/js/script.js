@@ -515,6 +515,42 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { passive: true });
 });
 
+// Automatic Pricing Savings Calculation
+document.addEventListener('DOMContentLoaded', () => {
+    const bundleCards = document.querySelectorAll('.pricing-card-bundle[data-original-value]');
+    
+    bundleCards.forEach(card => {
+        const originalValue = parseFloat(card.getAttribute('data-original-value'));
+        const priceElement = card.querySelector('.price');
+        const originalSpan = card.querySelector('.pricing-original');
+        const savingsSpan = card.querySelector('.pricing-savings');
+        
+        if (!priceElement || !originalSpan || !savingsSpan) return;
+        
+        // Extract current price from price element (handles "$55" format)
+        const priceText = priceElement.textContent.trim();
+        const priceMatch = priceText.match(/\$(\d+(?:\.\d+)?)/);
+        
+        // Only process if we have a valid numeric price (skip ranges like "$200–$300")
+        if (priceMatch) {
+            const currentPrice = parseFloat(priceMatch[1]);
+            const savings = originalValue - currentPrice;
+            
+            // Display original value
+            originalSpan.textContent = `$${originalValue}`;
+            
+            // Calculate and display savings
+            if (savings > 0) {
+                savingsSpan.textContent = `Save $${savings}`;
+                savingsSpan.classList.remove('pricing-savings-no-discount');
+            } else {
+                savingsSpan.textContent = 'Full value';
+                savingsSpan.classList.add('pricing-savings-no-discount');
+            }
+        }
+    });
+});
+
 // Calendly integration note
 // To set up Calendly:
 // 1. Go to https://calendly.com and create a free account
