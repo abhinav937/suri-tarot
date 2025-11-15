@@ -587,9 +587,53 @@ section:not(#home) {
 
 /* About Section */
 .about {
-    background: var(--white);
+    background: var(--gradient);
+    background-image: url('../images/banner2.jpg');
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: overlay;
+    background-attachment: fixed;
     position: relative;
     overflow: hidden;
+}
+
+.about::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--gradient);
+    opacity: 0.85;
+    z-index: 0;
+}
+
+.about::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.1)"/><circle cx="10" cy="50" r="0.5" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+    opacity: 0.2;
+    z-index: 1;
+}
+
+.about .container {
+    position: relative;
+    z-index: 2;
+}
+
+.about .section-title {
+    color: var(--white);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.about .section-title-icon {
+    color: var(--primary-color);
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
 }
 
 /* About Hero Card */
@@ -2419,6 +2463,15 @@ section:not(#home) {
 
     .section-title-icon {
         font-size: 2rem;
+    }
+
+    /* Disable background-attachment: fixed on mobile for better performance */
+    .hero {
+        background-attachment: scroll;
+    }
+
+    .about {
+        background-attachment: scroll;
     }
 
     .services-grid {
