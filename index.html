@@ -1,27 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
+    <!-- Google tag (gtag.js) - REPLACE GA_MEASUREMENT_ID with your actual Google Analytics 4 Measurement ID -->
+    <!-- Get your Measurement ID from: https://analytics.google.com/ -->
+    <!-- Format: G-XXXXXXXXXX -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
       gtag('config', 'GA_MEASUREMENT_ID');
+      
+      // Enhanced ecommerce tracking (optional - for tracking bookings as conversions)
+      // Uncomment and configure if you want to track booking events:
+      // gtag('event', 'booking_view', {
+      //   'event_category': 'engagement',
+      //   'event_label': 'booking_page_viewed'
+      // });
     </script>
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- Primary Meta Tags -->
-    <title>Šuri - Balkan Witch & Tarot | Professional Tarot Readings from $2</title>
+    <title>Šuri - Balkan Witch & Tarot</title>
     <meta name="title" content="Šuri - Balkan Witch & Tarot">
-    <meta name="keywords" content="tarot reading, balkan witch, tarot cards, tarot guidance, spiritual reading, tarot reader, fortune telling, spiritual guidance, love tarot, career tarot, tarot reading online, $2 tarot reading, quick tarot pull">
+    <meta name="keywords" content="tarot reading, balkan witch, tarot cards, tarot guidance, spiritual reading, tarot reader, fortune telling, spiritual guidance, love tarot, career tarot, tarot reading online, $2 tarot reading, quick tarot pull, coffee cup reading, tasseography, balkan ritual work, spiritual guidance">
     <meta name="author" content="Šuri - Balkan Witch & Tarot">
-    <meta name="robots" content="index, follow">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
     <meta name="language" content="English">
     <meta name="revisit-after" content="7 days">
     <meta name="theme-color" content="#FFC125">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="geo.region" content="US">
+    <meta name="rating" content="general">
     
     <!-- Canonical URL -->
     <link rel="canonical" href="https://suritarot.com/">
@@ -48,8 +60,6 @@
     
     <!-- Twitter Card - Enhanced Link Preview -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@suri_tarot">
-    <meta name="twitter:creator" content="@suri_tarot">
     <meta name="twitter:title" content="Šuri - Balkan Witch & Tarot">
     <meta name="twitter:image" content="https://suritarot.com/assets/images/link_preview.jpg">
     <meta name="twitter:image:alt" content="Šuri - Balkan Witch & Tarot - Professional Tarot Reading Services">
@@ -73,10 +83,17 @@
     <link rel="icon" type="image/png" sizes="512x512" href="assets/favicons/android-chrome-512x512.png">
     <link rel="manifest" href="assets/favicons/site.webmanifest">
     
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="assets/css/styles.css">
+    <!-- Performance & Resource Hints -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+    <link rel="dns-prefetch" href="https://www.venmo.com">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="assets/css/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <!-- Google Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -265,6 +282,70 @@
       "sameAs": [
         "https://www.venmo.com/u/suri_tarot"
       ]
+    }
+    </script>
+    
+    <!-- Breadcrumb Schema for Navigation -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://suritarot.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Services",
+          "item": "https://suritarot.com/#services"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Pricing",
+          "item": "https://suritarot.com/#pricing"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "About",
+          "item": "https://suritarot.com/#about"
+        },
+        {
+          "@type": "ListItem",
+          "position": 5,
+          "name": "Book Appointment",
+          "item": "https://suritarot.com/#scheduling"
+        }
+      ]
+    }
+    </script>
+    
+    <!-- Service Schema for Main Services -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "serviceType": "Tarot Reading Service",
+      "provider": {
+        "@type": "Person",
+        "name": "Šuri",
+        "jobTitle": "Balkan Witch & Tarot Reader"
+      },
+      "areaServed": {
+        "@type": "Country",
+        "name": "United States"
+      },
+      "availableChannel": {
+        "@type": "ServiceChannel",
+        "serviceUrl": "https://suritarot.com/#scheduling",
+        "serviceType": "Online"
+      },
+      "description": "Professional tarot readings, coffee cup divination, and Balkan ritual work offering personalized insights for love, career, and personal growth"
     }
     </script>
 </head>
